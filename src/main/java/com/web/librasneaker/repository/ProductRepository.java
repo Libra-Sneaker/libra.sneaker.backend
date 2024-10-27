@@ -47,6 +47,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity,String> {
         AND (:#{#req.typeId} IS NULL OR :#{#req.typeId} LIKE '' OR t.id = :#{#req.typeId})
         AND (:#{#req.materialId} IS NULL OR :#{#req.materialId} LIKE '' OR m.id = :#{#req.materialId})
         AND (:#{#req.status} IS NULL OR :#{#req.status} LIKE '' OR p.status = :#{#req.status})
+        AND (:#{#req.colorId} IS NULL OR :#{#req.colorId} LIKE '' OR pd.color_id = :#{#req.colorId})
+        AND (:#{#req.sizeId} IS NULL OR :#{#req.sizeId} LIKE '' OR pd.size_id = :#{#req.sizeId})
+        AND (:#{#req.price} IS NULL OR :#{#req.price} LIKE '' OR pd.price = :#{#req.price})
     ORDER BY p.id DESC
     """, countQuery = """
     SELECT COUNT(p.id) 
@@ -70,6 +73,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity,String> {
         AND (:#{#req.typeId} IS NULL OR :#{#req.typeId} LIKE '' OR t.id = :#{#req.typeId})
         AND (:#{#req.materialId} IS NULL OR :#{#req.materialId} LIKE '' OR m.id = :#{#req.materialId})
         AND (:#{#req.status} IS NULL OR :#{#req.status} LIKE '' OR p.status = :#{#req.status})
+        AND (:#{#req.colorId} IS NULL OR :#{#req.colorId} LIKE '' OR pd.color_id = :#{#req.colorId})
+        AND (:#{#req.sizeId} IS NULL OR :#{#req.sizeId} LIKE '' OR pd.size_id = :#{#req.sizeId})
+        AND (:#{#req.price} IS NULL OR :#{#req.price} LIKE '' OR pd.price = :#{#req.price})
     """, nativeQuery = true)
     Page<ProductManagementResponse> getProductManagementResponse(Pageable pageable, @Param("req") FindProductManagementDTO req);
 
