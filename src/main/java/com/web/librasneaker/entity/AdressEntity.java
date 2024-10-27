@@ -11,42 +11,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "customers")
+@Table(name = "adress")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @DynamicUpdate
-public class CustomerEntity extends PrimaryEntity {
-
-    @Column(length = EntityProperties.LENGTH_CODE)
-    private String code;
-
+public class AdressEntity extends PrimaryEntity {
     @Column(length = EntityProperties.LENGTH_NAME)
     private String name;
 
     @Column
-    private Date dateOfBirth;
-
-    @Column(length = EntityProperties.LENGTH_PHONE)
-    private String phone;
-
-    @Column(length = EntityProperties.LENGTH_EMAIL)
-    private String email;
+    private String type;
 
     @Column
-    private Integer sex;
+    private String status;
 
-    @Column(length = EntityProperties.LENGTH_PASSWORD)
-    private String password;
-
-    @Column(length = EntityProperties.LENGTH_URL)
-    private String avatar;
-
-    @Column
-    private Integer deleteFlag = 0;
-
+    @Column(name = "customer_id",length = EntityProperties.LENGTH_ID)
+    private String customerId;
 }

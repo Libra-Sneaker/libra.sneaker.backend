@@ -55,7 +55,9 @@ public class WebSecurityConfiguration {
                                 .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/client/**")).permitAll()
                                 .anyRequest()
-                                .authenticated()
+                                // TODO Authentication
+//                                .authenticated()
+                                .permitAll()
                 )
                 .headers(headers -> headers
                         .xssProtection(xss ->

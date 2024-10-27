@@ -61,8 +61,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
         } else {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization token is required");
-            return;
+              // TODO JWT
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization token is required");
+//            return;
         }
 
         filterChain.doFilter(request, response);

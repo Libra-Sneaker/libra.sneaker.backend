@@ -9,44 +9,39 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Length;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "customers")
+@Table(name = "bills")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @DynamicUpdate
-public class CustomerEntity extends PrimaryEntity {
-
+public class BillEntity extends PrimaryEntity {
     @Column(length = EntityProperties.LENGTH_CODE)
     private String code;
 
-    @Column(length = EntityProperties.LENGTH_NAME)
-    private String name;
+    @Column
+    private String type;
+
+    @Column(name = "total_amount")
+    private Double totalAmount;
+
+    @Column(name = "date_payment")
+    private String datePayment;
 
     @Column
-    private Date dateOfBirth;
-
-    @Column(length = EntityProperties.LENGTH_PHONE)
-    private String phone;
-
-    @Column(length = EntityProperties.LENGTH_EMAIL)
-    private String email;
+    private String address;
 
     @Column
-    private Integer sex;
+    private String status;
 
-    @Column(length = EntityProperties.LENGTH_PASSWORD)
-    private String password;
+    @Column(name = "employee-id",length = EntityProperties.LENGTH_ID)
+    private String employeeId;
 
-    @Column(length = EntityProperties.LENGTH_URL)
-    private String avatar;
-
-    @Column
-    private Integer deleteFlag = 0;
+    @Column(name = "customer-id",length = EntityProperties.LENGTH_ID)
+    private String customerId;
 
 }

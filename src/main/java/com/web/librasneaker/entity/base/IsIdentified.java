@@ -1,7 +1,7 @@
-package com.web.librasneaker.entity.base;
+    package com.web.librasneaker.entity.base;
 
-public interface IsIdentified {
+    public interface IsIdentified {
 
-    String getId();
+        String getId();
 
-}
+    }

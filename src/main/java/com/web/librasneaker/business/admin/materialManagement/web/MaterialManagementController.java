@@ -1,0 +1,46 @@
+package com.web.librasneaker.business.admin.materialManagement.web;
+
+import com.web.librasneaker.business.admin.materialManagement.service.MaterialManagementService;
+import com.web.librasneaker.dto.colorManagement.UpdateColorDTO;
+import com.web.librasneaker.entity.MaterialEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@CrossOrigin("*")
+@AllArgsConstructor
+@RestController
+@RequestMapping("/materialManagement")
+public class MaterialManagementController {
+    private final MaterialManagementService materialManagementService;
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createMaterial (@RequestBody MaterialEntity request) {
+        return ResponseEntity.ok().body(materialManagementService.createMaterial(request));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateMaterial (@RequestBody MaterialEntity request) {
+        return ResponseEntity.ok().body(materialManagementService.updateMaterial(request));
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> deleteMaterial(@PathVariable String id) {
+        return ResponseEntity.ok().body(materialManagementService.deleteMaterial(id));
+    }
+
+    @GetMapping("/get-all-materials")
+    public ResponseEntity<List<MaterialEntity>> getAllMaterials() {
+        return ResponseEntity.ok(materialManagementService.getAllMaterialServices());
+    }
+}
