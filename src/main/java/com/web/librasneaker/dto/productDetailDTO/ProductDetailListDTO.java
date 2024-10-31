@@ -13,19 +13,24 @@ public class ProductDetailListDTO {
 
     private String productName;
 
-    private String brandId;
-
-    private String typeId;
-
-    private String materialId;
-
-    private String colorId;
-
-    private String sizeId;
-
     private String description;
+
+    private String sizeName;
+
+    private String brandName;
+
+    private String typeName;
+
+    private String materialName;
+
+    private String colorName;
 
     private String price;
 
+    private Long createdDate;
+
     private String status;
+
+    private Long quantity;
+
 }

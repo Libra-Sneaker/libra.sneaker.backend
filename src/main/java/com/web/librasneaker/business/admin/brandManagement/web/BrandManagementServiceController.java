@@ -23,7 +23,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/brandManagement")
+@RequestMapping("/admin/brandManagement")
 public class BrandManagementServiceController {
     private final BrandManagementService brandManagementService;
 

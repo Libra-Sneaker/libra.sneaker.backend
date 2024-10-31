@@ -21,7 +21,7 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/colorManagement")
+@RequestMapping("/admin/colorManagement")
 public class ColorManagementController {
     private final ColorManagementService colorManagementService;
 

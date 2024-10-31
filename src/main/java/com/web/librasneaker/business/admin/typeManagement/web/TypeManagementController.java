@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/typeManagement")
+@RequestMapping("/admin/typeManagement")
 public class TypeManagementController {
     public final TypeManagementService typeManagementService;
 

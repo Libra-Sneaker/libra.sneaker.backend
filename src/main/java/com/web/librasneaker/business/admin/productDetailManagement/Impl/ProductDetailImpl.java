@@ -53,6 +53,10 @@ public class ProductDetailImpl implements ProductDetailService {
 
     @Override
     public String createProductDetail(CreateProductDetailDTO createProductDetail) {
+
+
+
+
 //        Optional<ProductEntity> existingProduct = productRepository.findById(CreateProductDetailDTO);
         Optional<ProductEntity> existingProduct = productRepository.findById(createProductDetail.getProductId());
         if (!existingProduct.isPresent()) {
@@ -62,7 +66,6 @@ public class ProductDetailImpl implements ProductDetailService {
         // Create product detail
         ProductDetailEntity productDetail = new ProductDetailEntity();
         productDetail.setProductId(existingProduct.get().getId());
-        productDetail.setName(createProductDetail.getProductDetailName());
         productDetail.setProductCode(createProductDetail.getProductCode());
         productDetail.setPrice(createProductDetail.getPrice());
         productDetail.setQuantity(createProductDetail.getQuantity());
@@ -92,7 +95,6 @@ public class ProductDetailImpl implements ProductDetailService {
 
         // Step 3: Update the product detail fields
         ProductDetailEntity productDetail = existingProductDetail.get();
-        productDetail.setName(request.getProductDetailName());
         productDetail.setProductCode(request.getProductCode());
         productDetail.setQuantity(request.getQuantity());
         productDetail.setDescription(request.getDescription());

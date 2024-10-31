@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class CreateProductManagementDTO {
@@ -25,5 +27,7 @@ public class CreateProductManagementDTO {
 
     @NotNull (message = "Không được để trống")
     private String typeId;
+
+    private List<CreateProductDetailManagementDTO> details;
 
 }

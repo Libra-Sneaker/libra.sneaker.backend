@@ -6,7 +6,7 @@ public interface ProductDetailManagementResponse {
 
     String getProductId();
 
-    String getproductName();
+    String getProductName();
 
     String getBrandName();
 
@@ -24,4 +24,7 @@ public interface ProductDetailManagementResponse {
 
     String getStatus();
 
+    Long getCreatedDate();
+
+    Long getQuantity();
 }

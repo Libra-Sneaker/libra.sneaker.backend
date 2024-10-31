@@ -6,23 +6,12 @@ public interface ProductManagementResponse {
 
     String getProductId();
 
-    String getproductName();
-
-    String getDescription();
-
-    String getSizeName();
-
-    String getBrandName();
-
-    String getTypeName();
-
-    String getMaterialName();
-
-    String getColorName();
-
-    Double getPrice();
+    String getProductName();
 
     String getStatus();
 
+    Long getCreatedDate();
+
+    Long getTotalQuantity();
 
 }

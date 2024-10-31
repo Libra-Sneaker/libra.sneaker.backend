@@ -20,9 +20,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class ProductDetailEntity extends PrimaryEntity {
 
-    @Column(name = "name", length = EntityProperties.LENGTH_NAME)
-    private String name;
-
     @Column(length = EntityProperties.LENGTH_DESCRIPTION)
     private String description;
 

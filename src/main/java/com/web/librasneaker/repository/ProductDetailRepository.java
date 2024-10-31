@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetailEntity,String> {
     @Query(value = """
@@ -26,7 +28,9 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         c.name AS colorName,
         sz.name AS sizeName,
         pd.price AS price,
-        p.status AS status
+        p.status AS status,
+        pd.created_date AS createdDate,
+        pd.quantity AS quantity
     FROM
         products p
     LEFT JOIN
@@ -46,12 +50,12 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         AND (:#{#req.brandId} IS NULL OR :#{#req.brandId} LIKE '' OR b.id = :#{#req.brandId})
         AND (:#{#req.typeId} IS NULL OR :#{#req.typeId} LIKE '' OR t.id = :#{#req.typeId})
         AND (:#{#req.materialId} IS NULL OR :#{#req.materialId} LIKE '' OR m.id = :#{#req.materialId})
-        AND (:#{#req.colorId} IS NULL OR :#{#req.colorId} LIKE '' OR c.id = :#{#req.colorId})
-        AND (:#{#req.sizeId} IS NULL OR :#{#req.sizeId} LIKE '' OR sz.id = :#{#req.sizeId})
-        AND (:#{#req.price} IS NULL OR pd.price = :#{#req.price})
         AND (:#{#req.status} IS NULL OR :#{#req.status} LIKE '' OR p.status = :#{#req.status})
+        AND (:#{#req.colorId} IS NULL OR :#{#req.colorId} LIKE '' OR pd.color_id = :#{#req.colorId})
+        AND (:#{#req.sizeId} IS NULL OR :#{#req.sizeId} LIKE '' OR pd.size_id = :#{#req.sizeId})
+        AND (:#{#req.price} IS NULL OR :#{#req.price} LIKE '' OR pd.price = :#{#req.price})
     ORDER BY p.id DESC
-""", countQuery = """
+    """, countQuery = """
     SELECT COUNT(p.id) 
     FROM
         products p
@@ -72,12 +76,13 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         AND (:#{#req.brandId} IS NULL OR :#{#req.brandId} LIKE '' OR b.id = :#{#req.brandId})
         AND (:#{#req.typeId} IS NULL OR :#{#req.typeId} LIKE '' OR t.id = :#{#req.typeId})
         AND (:#{#req.materialId} IS NULL OR :#{#req.materialId} LIKE '' OR m.id = :#{#req.materialId})
-        AND (:#{#req.colorId} IS NULL OR :#{#req.colorId} LIKE '' OR c.id = :#{#req.colorId})
-        AND (:#{#req.sizeId} IS NULL OR :#{#req.sizeId} LIKE '' OR sz.id = :#{#req.sizeId})
-        AND (:#{#req.price} IS NULL OR pd.price = :#{#req.price})
         AND (:#{#req.status} IS NULL OR :#{#req.status} LIKE '' OR p.status = :#{#req.status})
-""", nativeQuery = true)
+        AND (:#{#req.colorId} IS NULL OR :#{#req.colorId} LIKE '' OR pd.color_id = :#{#req.colorId})
+        AND (:#{#req.sizeId} IS NULL OR :#{#req.sizeId} LIKE '' OR pd.size_id = :#{#req.sizeId})
+        AND (:#{#req.price} IS NULL OR :#{#req.price} LIKE '' OR pd.price = :#{#req.price})
+    """, nativeQuery = true)
 
     Page<ProductDetailManagementResponse> getProductDetailResponse (Pageable pageable, @Param("req") FindProductDetailDTO req);
 
+    Optional<ProductDetailEntity> findByProductId (String id);
 }

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-    @RequestMapping("/productManagement")
+    @RequestMapping("/admin/productManagement")
 public class ProductManagementController {
     private final BrandManagementService brandManagementService;
     private final ProductManagementService productManagementService;
@@ -43,6 +43,8 @@ public class ProductManagementController {
 
     @DeleteMapping("delete/{id}")
     public String deleteProduct(@PathVariable String id) {
+
+
         return productManagementService.deleteProduct(id);
     }
 

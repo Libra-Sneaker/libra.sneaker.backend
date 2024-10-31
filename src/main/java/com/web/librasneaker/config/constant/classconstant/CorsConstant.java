@@ -7,6 +7,6 @@ public final class CorsConstant {
 
     public static final List<String> LIST_DOMAIN_ACCEPT
             = new ArrayList<>(
-            List.of("https://libarsneaker.com", "http://localhost:3000"));
+            List.of("https://libarsneaker.com", "http://localhost:3000", "http://localhost:8686"));
 
 }

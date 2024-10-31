@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/sizeManagement")
+@RequestMapping("/admin/sizeManagement")
 public class SizeManagementController {
 
     private final SizeManagementService sizeManagementService;

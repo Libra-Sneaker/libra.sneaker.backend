@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/materialManagement")
+@RequestMapping("/admin/materialManagement")
 public class MaterialManagementController {
     private final MaterialManagementService materialManagementService;
 
