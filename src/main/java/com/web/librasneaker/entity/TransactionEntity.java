@@ -27,9 +27,6 @@ public class TransactionEntity extends PrimaryEntity {
     private String paymentId;
 
     @Column
-    private String status;
-
-    @Column
     private Double money;
 
 }

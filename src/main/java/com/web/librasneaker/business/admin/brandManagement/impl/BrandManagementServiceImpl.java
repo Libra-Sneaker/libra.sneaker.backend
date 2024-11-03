@@ -5,6 +5,7 @@ import com.web.librasneaker.dto.brandManagement.CreateBrandRequestDTO;
 import com.web.librasneaker.dto.brandManagement.UpdateBrandRequestDTO;
 import com.web.librasneaker.business.admin.brandManagement.service.BrandManagementService;
 import com.web.librasneaker.config.exception.custom.RestApiException;
+import com.web.librasneaker.dto.brandManagement.UpdateDeleteFlagRequestDTO;
 import com.web.librasneaker.entity.BrandEntity;
 import com.web.librasneaker.repository.BrandRepository;
 import jakarta.validation.Valid;
@@ -31,8 +32,8 @@ public class BrandManagementServiceImpl implements BrandManagementService {
 
         BrandEntity brand = new BrandEntity();
         brand.setName(request.getName());
-        brand.setDescription(request.getDescription());
-        brand.setStatus(request.getStatus());
+        brand.setStatus(1);
+        brand.setDeleteFlag(0);
 
         brandRepository.save(brand);
 
@@ -49,7 +50,6 @@ public class BrandManagementServiceImpl implements BrandManagementService {
 
         BrandEntity brandEntity = brand.get();
         brandEntity.setName(updateBrandRequestDTO.getName());
-        brandEntity.setDescription(updateBrandRequestDTO.getDescription());
         brandEntity.setStatus(updateBrandRequestDTO.getStatus());
 
         brandRepository.save(brandEntity);
@@ -73,5 +73,34 @@ public class BrandManagementServiceImpl implements BrandManagementService {
     public List<BrandEntity> getAllBrand() {
         return brandRepository.findAll();
     }
+
+    @Override
+    public String updateDeleteFlag(UpdateDeleteFlagRequestDTO request) {
+        Optional<BrandEntity> brand = brandRepository.findById(request.getId());
+        if (!brand.isPresent()) {
+            throw new RestApiException("Brand không tồn tại");
+        }
+
+        BrandEntity brandEntity = brand.get();
+        brandEntity.setDeleteFlag(request.getDeleteFlag());
+        brandRepository.save(brandEntity);  // Persist the change
+
+        return "Đặt cờ thành công!";
+    }
+
+    @Override
+    public String updateStatus(String id, Integer status) {
+        Optional<BrandEntity> brand = brandRepository.findById(id);
+        if (!brand.isPresent()) {
+            throw new RestApiException("Brand không tồn tại");
+        }
+
+        BrandEntity brandEntity = brand.get();
+        brandEntity.setStatus(status);
+        brandRepository.save(brandEntity);  // Persist the change
+
+        return "Cập nhật status thành công!";
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.web.librasneaker.business.admin.colorManagement.service;
 
 import com.web.librasneaker.dto.colorManagement.CreateColorDTO;
 import com.web.librasneaker.dto.colorManagement.UpdateColorDTO;
+import com.web.librasneaker.dto.colorManagement.UpdateDeleteFlagColorDTO;
 import com.web.librasneaker.entity.ColorEntity;
 import jakarta.validation.Valid;
 
@@ -20,5 +21,7 @@ public interface ColorManagementService {
 
     // get all color management services
     List<ColorEntity> getAllColor ();
+
+    String updateDeleteFlagColor (UpdateDeleteFlagColorDTO request);
 
 }

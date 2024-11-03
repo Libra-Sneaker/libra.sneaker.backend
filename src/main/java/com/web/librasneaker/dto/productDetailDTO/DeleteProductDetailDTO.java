@@ -14,7 +14,7 @@ public class DeleteProductDetailDTO {
 
     private String sizeId;
 
-    private String status;
+    private Integer status;
 
 
 }

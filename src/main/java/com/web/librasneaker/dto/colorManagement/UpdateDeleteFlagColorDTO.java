@@ -1,4 +1,4 @@
-package com.web.librasneaker.dto.brandManagement;
+package com.web.librasneaker.dto.colorManagement;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,15 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateBrandRequestDTO {
-
+public class UpdateDeleteFlagColorDTO {
     @NotBlank(message = "Không được để trống")
     private String id;
 
-    @NotBlank(message = "Không được để trống")
-    private String name;
-
     @NotNull(message = "Không được để trống")
-    private Integer status;
-
+    private Integer deleteFlag;
 }

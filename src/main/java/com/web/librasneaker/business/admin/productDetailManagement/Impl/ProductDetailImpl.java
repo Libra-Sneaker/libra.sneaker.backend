@@ -66,13 +66,12 @@ public class ProductDetailImpl implements ProductDetailService {
         // Create product detail
         ProductDetailEntity productDetail = new ProductDetailEntity();
         productDetail.setProductId(existingProduct.get().getId());
-        productDetail.setProductCode(createProductDetail.getProductCode());
         productDetail.setPrice(createProductDetail.getPrice());
         productDetail.setQuantity(createProductDetail.getQuantity());
-        productDetail.setDescription(createProductDetail.getDescription());
         productDetail.setColorId(createProductDetail.getColorId());
         productDetail.setSizeId(createProductDetail.getSizeId());
-        productDetail.setStatus(createProductDetail.getStatus());
+        productDetail.setStatus(1);
+        productDetail.setDeleteFlag(0);
         productDetailRepository.save(productDetail);
 
         return "Thêm chi tiết sản phẩm thành công!";
@@ -95,13 +94,12 @@ public class ProductDetailImpl implements ProductDetailService {
 
         // Step 3: Update the product detail fields
         ProductDetailEntity productDetail = existingProductDetail.get();
-        productDetail.setProductCode(request.getProductCode());
         productDetail.setQuantity(request.getQuantity());
-        productDetail.setDescription(request.getDescription());
         productDetail.setPrice(request.getPrice());
         productDetail.setSizeId(request.getSizeId());
         productDetail.setColorId(request.getColorId());
         productDetail.setStatus(request.getStatus());
+        productDetail.setDeleteFlag(request.getDeleteFlag());
 
         // Optionally update main product fields if needed
 //        ProductEntity product = existingProduct.get();

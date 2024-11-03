@@ -27,12 +27,10 @@ public class CreateProductDetailManagementDTO {
     @NotNull(message = "Không được để trống")
     private Double price;
 
-
-
     @NotNull(message = "Không được để trống")
     private Long quantity;
 
-    private String status;
+    private Integer status = 1;
 
 
 

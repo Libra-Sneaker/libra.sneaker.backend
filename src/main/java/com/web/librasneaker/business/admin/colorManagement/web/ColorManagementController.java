@@ -1,9 +1,12 @@
 package com.web.librasneaker.business.admin.colorManagement.web;
 
 import com.web.librasneaker.business.admin.colorManagement.service.ColorManagementService;
+import com.web.librasneaker.dto.brandManagement.UpdateDeleteFlagRequestDTO;
 import com.web.librasneaker.dto.colorManagement.CreateColorDTO;
 import com.web.librasneaker.dto.colorManagement.UpdateColorDTO;
+import com.web.librasneaker.dto.colorManagement.UpdateDeleteFlagColorDTO;
 import com.web.librasneaker.entity.ColorEntity;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,12 +38,18 @@ public class ColorManagementController {
         return ResponseEntity.ok().body(colorManagementService.updateColor(request));
     }
 
+    @PutMapping("/updateDeleteFlag")
+    public ResponseEntity<String> updateDeleteFlag(@Valid @RequestBody UpdateDeleteFlagColorDTO request) {
+        String result = colorManagementService.updateDeleteFlagColor(request);
+        return ResponseEntity.ok(result);
+    }
+
     @DeleteMapping("delete/{id}")
     public String deleteColor (@PathVariable String id) {
         return colorManagementService.deleteColor(id);
     }
 
-    @GetMapping("get-all-color")
+    @GetMapping("/get-all-color")
     public ResponseEntity<List<ColorEntity>> getAllColors () {
         return ResponseEntity.ok().body(colorManagementService.getAllColor());
     }

@@ -19,9 +19,6 @@ public class CreateProductDetailDTO {
     @NotBlank(message = "Không được để trống")
     private Long quantity;
 
-    @NotBlank(message = "Không được để trống")
-    private String description;
-
     @NotNull (message = "Không được để trống")
     private Double price;
 
@@ -41,6 +38,6 @@ public class CreateProductDetailDTO {
     private String colorId;
 
     @NotBlank(message = "Không được để trống")
-    private String status;
+    private Integer status = 1;
 
 }

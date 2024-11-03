@@ -22,7 +22,4 @@ public class PaymentEntity extends PrimaryEntity {
 
     @Column(length = EntityProperties.LENGTH_NAME)
     private String name;
-
-    @Column
-    private String status;
 }

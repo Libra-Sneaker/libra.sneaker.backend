@@ -26,8 +26,9 @@ public class MaterialManagementImpl implements MaterialManagementService {
 
         MaterialEntity material = new MaterialEntity();
         material.setName(materialEntity.getName());
-        material.setDescription(materialEntity.getDescription());
-        material.setStatus(materialEntity.getStatus());
+        material.setStatus(1);
+        material.setDeleteFlag(0);
+
         materialRepository.save(material);
 
 
@@ -44,8 +45,8 @@ public class MaterialManagementImpl implements MaterialManagementService {
 
         MaterialEntity material = existingMaterial.get();
         material.setName(materialEntity.getName());
-        material.setDescription(materialEntity.getDescription());
         material.setStatus(materialEntity.getStatus());
+        material.setDeleteFlag(materialEntity.getDeleteFlag());
         materialRepository.save(material);
 
         return "Cập nhật Material thành công!";
@@ -64,5 +65,35 @@ public class MaterialManagementImpl implements MaterialManagementService {
     @Override
     public List<MaterialEntity> getAllMaterialServices() {
         return materialRepository.findAll();
+    }
+
+    @Override
+    public String updateDeleteFlagMaterial(String id, Integer deleteFlag) {
+
+        Optional<MaterialEntity> existingMaterial = materialRepository.findById(id);
+        if (!existingMaterial.isPresent()) {
+            throw new RuntimeException("Material không tồn tại");
+        }
+
+        MaterialEntity material = existingMaterial.get();
+        material.setDeleteFlag(deleteFlag);
+        materialRepository.save(material);
+
+        return "Đặt cờ material thành công!";
+    }
+
+    @Override
+    public String updateStatusMaterial(String id, Integer status) {
+
+        Optional<MaterialEntity> existingMaterial = materialRepository.findById(id);
+        if (!existingMaterial.isPresent()) {
+            throw new RuntimeException("Material không tồn tại");
+        }
+
+        MaterialEntity material = existingMaterial.get();
+        material.setStatus(status);
+        materialRepository.save(material);
+
+        return "Cập nhật trạng thái Material thành công!";
     }
 }

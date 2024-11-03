@@ -35,9 +35,6 @@ public class BillEntity extends PrimaryEntity {
     @Column
     private String address;
 
-    @Column
-    private String status;
-
     @Column(name = "employee-id",length = EntityProperties.LENGTH_ID)
     private String employeeId;
 

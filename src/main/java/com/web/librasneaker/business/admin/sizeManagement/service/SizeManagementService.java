@@ -12,6 +12,8 @@ public interface SizeManagementService {
     // update an existing size management service
     String updateSize (@Valid SizeEntity size);
 
+    String updateDeleteFlagSize(String id, Integer deleteFlag);
+
     // delete an existing size management service
     String deleteSize (String id);
 

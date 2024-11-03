@@ -10,9 +10,5 @@ public class CreateColorDTO {
     @NotBlank(message = "Không được để trống")
     private String name;
 
-    @NotBlank(message = "Không được để trống")
-    private String description;
 
-    @NotBlank(message = "Không được để trống")
-    private String status;
 }

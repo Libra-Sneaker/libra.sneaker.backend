@@ -24,9 +24,6 @@ public class UpdateProductDetailManagementDTO {
     @NotBlank(message = "Không được để trống")
     private Long quantity;
 
-    @NotBlank(message = "Không được để trống")
-    private String description;
-
     @NotNull (message = "Không được để trống")
     private Double price;
 
@@ -46,6 +43,9 @@ public class UpdateProductDetailManagementDTO {
     private String colorId;
 
     @NotBlank(message = "Không được để trống")
-    private String status;
+    private Integer status;
+
+    @NotNull (message = "Không được để trống")
+    private Integer deleteFlag;
 
 }

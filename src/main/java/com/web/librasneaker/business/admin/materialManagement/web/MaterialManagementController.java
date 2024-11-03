@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,6 +33,16 @@ public class MaterialManagementController {
     @PutMapping("/update")
     public ResponseEntity<String> updateMaterial (@RequestBody MaterialEntity request) {
         return ResponseEntity.ok().body(materialManagementService.updateMaterial(request));
+    }
+
+    @PutMapping("/updateDeleteFlag")
+    public ResponseEntity<String> updateDeleteFlagMaterial (@RequestParam String id, @RequestParam Integer deleteFlag) {
+        return ResponseEntity.ok().body(materialManagementService.updateDeleteFlagMaterial(id,deleteFlag));
+    }
+
+    @PutMapping("/updateStatus")
+    public ResponseEntity<String> updateStatusMaterial (@RequestParam String id, @RequestParam Integer status) {
+        return ResponseEntity.ok().body(materialManagementService.updateStatusMaterial(id,status));
     }
 
     @DeleteMapping("delete/{id}")

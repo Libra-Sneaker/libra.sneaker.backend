@@ -20,9 +20,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class ProductDetailEntity extends PrimaryEntity {
 
-    @Column(length = EntityProperties.LENGTH_DESCRIPTION)
-    private String description;
-
     @Column(name = "size_id",length = EntityProperties.LENGTH_ID)
     private String sizeId;
 
@@ -32,9 +29,6 @@ public class ProductDetailEntity extends PrimaryEntity {
     @Column(name = "product_id",length = EntityProperties.LENGTH_ID)
     private String productId;
 
-    @Column(name = "product_code",length = EntityProperties.LENGTH_CODE)
-    private String productCode;
-
     @Column
     private Double price;
 
@@ -42,6 +36,12 @@ public class ProductDetailEntity extends PrimaryEntity {
     private Long quantity;
 
     @Column
-    private String status;
+    private String urlImage;
+
+    @Column
+    private Integer status = 1;
+
+    @Column
+    private Integer deleteFlag = 0;
 
 }

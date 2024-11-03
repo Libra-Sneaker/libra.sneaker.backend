@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,6 +33,11 @@ public class TypeManagementController {
     @PutMapping("/update")
     public ResponseEntity<String> updateType (@RequestBody TypeEntity request) {
         return ResponseEntity.ok().body(typeManagementService.updateType(request));
+    }
+
+    @PutMapping("/updateDeleteFlag")
+    public ResponseEntity<String> updateType (@RequestParam String id, @RequestParam Integer deleteFlag) {
+        return ResponseEntity.ok().body(typeManagementService.updateDeleteFlagType(id, deleteFlag));
     }
 
     @DeleteMapping("delete/{id}")

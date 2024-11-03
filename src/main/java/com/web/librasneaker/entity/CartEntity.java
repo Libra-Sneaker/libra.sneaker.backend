@@ -21,4 +21,6 @@ import org.hibernate.annotations.DynamicUpdate;
 public class CartEntity extends PrimaryEntity {
     @Column(name = "customer_id",length = EntityProperties.LENGTH_ID)
     private String customerId;
+
+
 }

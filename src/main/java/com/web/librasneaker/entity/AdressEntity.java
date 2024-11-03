@@ -25,9 +25,6 @@ public class AdressEntity extends PrimaryEntity {
     @Column
     private String type;
 
-    @Column
-    private String status;
-
     @Column(name = "customer_id",length = EntityProperties.LENGTH_ID)
     private String customerId;
 }

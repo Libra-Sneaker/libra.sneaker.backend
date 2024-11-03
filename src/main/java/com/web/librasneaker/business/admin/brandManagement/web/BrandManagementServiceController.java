@@ -3,6 +3,7 @@ package com.web.librasneaker.business.admin.brandManagement.web;
 import com.web.librasneaker.dto.brandManagement.CreateBrandRequestDTO;
 import com.web.librasneaker.dto.brandManagement.UpdateBrandRequestDTO;
 import com.web.librasneaker.business.admin.brandManagement.service.BrandManagementService;
+import com.web.librasneaker.dto.brandManagement.UpdateDeleteFlagRequestDTO;
 import com.web.librasneaker.entity.BrandEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,9 +35,9 @@ public class BrandManagementServiceController {
         try {
             boolean isCreated = brandManagementService.createBrand(request);
             if (isCreated) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Brand created successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body("Thêm Brand thành công!");
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create brand");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thêm Brand thất bại!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
@@ -46,13 +48,27 @@ public class BrandManagementServiceController {
         try {
             boolean isUpdated = brandManagementService.updateBrandRequest(updateRequest);
             if (isUpdated) {
-                return ResponseEntity.ok("Brand updated successfully");
+                return ResponseEntity.ok("Cập nhật Brand thành công!");
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update brand");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cập nhật Brand thất bại!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
+
+    @PutMapping("/updateDeleteFlag")
+    public ResponseEntity<String> updateDeleteFlag(@Valid @RequestBody UpdateDeleteFlagRequestDTO request) {
+        String result = brandManagementService.updateDeleteFlag(request);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/updateStatus")
+    public ResponseEntity<String> updateStatus(@RequestParam String id, @RequestParam Integer status) {
+        String result = brandManagementService.updateStatus(id, status);
+        return ResponseEntity.ok(result);
+    }
+
+
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteBrand(@PathVariable String id) {

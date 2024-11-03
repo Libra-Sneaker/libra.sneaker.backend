@@ -5,17 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-public class UpdateBrandRequestDTO {
-
+public class UpdateDeleteFlagRequestDTO {
     @NotBlank(message = "Không được để trống")
     private String id;
 
-    @NotBlank(message = "Không được để trống")
-    private String name;
-
     @NotNull(message = "Không được để trống")
-    private Integer status;
-
+    private Integer deleteFlag;
 }

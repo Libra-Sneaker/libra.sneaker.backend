@@ -22,7 +22,7 @@ public interface ProductDetailManagementResponse {
 
     Double getPrice();
 
-    String getStatus();
+    Integer getStatus();
 
     Long getCreatedDate();
 

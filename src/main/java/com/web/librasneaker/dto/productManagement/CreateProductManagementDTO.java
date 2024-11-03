@@ -17,7 +17,7 @@ public class CreateProductManagementDTO {
     private String description;
 
     @NotBlank(message = "Không được để trống")
-    private String status;
+    private Integer status = 1;
 
     @NotNull(message = "Không được để trống")
     private String brandId;

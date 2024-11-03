@@ -4,6 +4,7 @@ import com.web.librasneaker.business.admin.colorManagement.service.ColorManageme
 import com.web.librasneaker.config.exception.custom.NotFoundException;
 import com.web.librasneaker.dto.colorManagement.CreateColorDTO;
 import com.web.librasneaker.dto.colorManagement.UpdateColorDTO;
+import com.web.librasneaker.dto.colorManagement.UpdateDeleteFlagColorDTO;
 import com.web.librasneaker.entity.ColorEntity;
 import com.web.librasneaker.repository.ColorRepository;
 import lombok.AllArgsConstructor;
@@ -30,8 +31,8 @@ public class ColorManagementImpl implements ColorManagementService {
 
         ColorEntity color = new ColorEntity();
         color.setName(createColor.getName());
-        color.setDescription(createColor.getDescription());
-        color.setStatus(createColor.getStatus());
+        color.setStatus(1);
+        color.setDeleteFlag(0);
 
         colorRepository.save(color);
 
@@ -47,8 +48,8 @@ public class ColorManagementImpl implements ColorManagementService {
         }
 
         color.get().setName(updateColor.getName());
-        color.get().setDescription(updateColor.getDescription());
         color.get().setStatus(updateColor.getStatus());
+        color.get().setDeleteFlag(updateColor.getDeleteFlag());
 
         colorRepository.save(color.get());
         return true;
@@ -70,6 +71,20 @@ public class ColorManagementImpl implements ColorManagementService {
     @Override
     public List<ColorEntity> getAllColor() {
         return colorRepository.findAll();
+    }
+
+    @Override
+    public String updateDeleteFlagColor(UpdateDeleteFlagColorDTO request) {
+        Optional<ColorEntity> color = colorRepository.findById(request.getId());
+        if (!color.isPresent()) {
+            throw new RuntimeException("Màu không tồn tại");
+        }
+
+        color.get().setDeleteFlag(request.getDeleteFlag());
+        colorRepository.save(color.get());
+
+
+        return "Đặt cờ thành công!";
     }
 
 

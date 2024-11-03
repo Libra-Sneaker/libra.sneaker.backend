@@ -13,8 +13,6 @@ public class ProductDetailListDTO {
 
     private String productName;
 
-    private String description;
-
     private String sizeName;
 
     private String brandName;
@@ -29,7 +27,7 @@ public class ProductDetailListDTO {
 
     private Long createdDate;
 
-    private String status;
+    private Integer status;
 
     private Long quantity;
 

@@ -15,7 +15,7 @@ public class ProductListDTO {
 
     private Long createdDate;
 
-    private String status;
+    private Integer status;
 
     private Long totalQuantity;
 

@@ -8,6 +8,5 @@ import lombok.Setter;
 public class DeleteBrandRequestDTO {
     private String id;
     private String name;
-    private String description;
-    private String status;
+    private Integer status;
 }

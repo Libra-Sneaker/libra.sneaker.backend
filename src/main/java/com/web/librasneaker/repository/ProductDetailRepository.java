@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -84,5 +85,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
 
     Page<ProductDetailManagementResponse> getProductDetailResponse (Pageable pageable, @Param("req") FindProductDetailDTO req);
 
-    Optional<ProductDetailEntity> findByProductId (String id);
+    List<ProductDetailEntity> findByProductId (String productId);
+
 }

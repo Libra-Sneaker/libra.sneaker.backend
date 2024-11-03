@@ -18,7 +18,7 @@ public class UpdateProductManagementDTO {
     private String description;
 
     @NotBlank(message = "Không được để trống")
-    private String status;
+    private Integer status;
 
     @NotNull(message = "Không được để trống")
     private String brandId;
@@ -28,4 +28,9 @@ public class UpdateProductManagementDTO {
 
     @NotNull (message = "Không được để trống")
     private String typeId;
+
+    @NotNull (message = "Không được để trống")
+    private Integer deleteFlag;
+
+
 }

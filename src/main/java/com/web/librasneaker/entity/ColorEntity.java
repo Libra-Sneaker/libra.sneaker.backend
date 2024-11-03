@@ -23,10 +23,9 @@ public class ColorEntity extends PrimaryEntity {
     @Column(length = EntityProperties.LENGTH_NAME)
     private String name;
 
-    @Column(length = EntityProperties.LENGTH_DESCRIPTION)
-    private String description;
+    @Column
+    private Integer status = 1;
 
     @Column
-    private String status;
-
+    private Integer deleteFlag = 0;
 }

@@ -13,9 +13,11 @@ import com.web.librasneaker.entity.ProductDetailEntity;
 import com.web.librasneaker.entity.ProductEntity;
 import com.web.librasneaker.entity.TypeEntity;
 import com.web.librasneaker.repository.BrandRepository;
+import com.web.librasneaker.repository.ColorRepository;
 import com.web.librasneaker.repository.MaterialRepository;
 import com.web.librasneaker.repository.ProductDetailRepository;
 import com.web.librasneaker.repository.ProductRepository;
+import com.web.librasneaker.repository.SizeRepository;
 import com.web.librasneaker.repository.TypeRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,6 +46,8 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     private final BrandRepository brandRepository;
     private final MaterialRepository materialRepository;
     private final TypeRepository typeRepository;
+    private final ColorRepository colorRepository;
+    private final SizeRepository sizeRepository;
 
 
     @Override
@@ -53,44 +58,52 @@ public class ProductManagementServiceImpl implements ProductManagementService {
             throw new RuntimeException("Sản phẩm đã tồn tại");
         }
 
-        Optional<BrandEntity> brandFind = brandRepository.findById(request.getBrandId());
-        if (!brandFind.isPresent()) {
-            throw new RuntimeException("Thương hiệu không tồn tại");
+        // Validate each of the main foreign keys
+        if (!brandRepository.existsById(request.getBrandId())) {
+            throw new RuntimeException("Thương hiệu không tồn tại: " + request.getBrandId());
         }
 
-        Optional<MaterialEntity> materialFind = materialRepository.findById(request.getMaterialId());
-        if (!materialFind.isPresent()) {
-            throw new RuntimeException("Chất liệu không tồn tại");
+        if (!materialRepository.existsById(request.getMaterialId())) {
+            throw new RuntimeException("Chất liệu không tồn tại: " + request.getMaterialId());
         }
 
-        Optional<TypeEntity> typeFind = typeRepository.findById(request.getTypeId());
-        if (!typeFind.isPresent()) {
-            throw new RuntimeException("Loại sản phẩm không tồn tại");
+        if (!typeRepository.existsById(request.getTypeId())) {
+            throw new RuntimeException("Loại sản phẩm không tồn tại: " + request.getTypeId());
         }
 
         // Create and save the main ProductEntity
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(request.getName());
         productEntity.setDescription(request.getDescription());
-        productEntity.setStatus(request.getStatus());
+        productEntity.setStatus(1);
         productEntity.setBrandId(request.getBrandId());
         productEntity.setMaterialId(request.getMaterialId());
         productEntity.setTypeId(request.getTypeId());
+        productEntity.setDeleteFlag(0);
 
         productRepository.save(productEntity);
 
         // Save each ProductDetailEntity linked to the ProductEntity
         if (request.getDetails() != null) {
             for (CreateProductDetailManagementDTO detailDTO : request.getDetails()) {
+                // Validate colorId
+                if (!colorRepository.existsById(detailDTO.getColorId())) {
+                    throw new RuntimeException("Mã màu không tồn tại: " + detailDTO.getColorId());
+                }
+
+                // Validate sizeId
+                if (!sizeRepository.existsById(detailDTO.getSizeId())) {
+                    throw new RuntimeException("Kích thước không tồn tại: " + detailDTO.getSizeId());
+                }
+
                 // Create a new ProductDetailEntity
                 ProductDetailEntity detailEntity = new ProductDetailEntity();
-                detailEntity.setDescription(detailDTO.getDescription());
                 detailEntity.setSizeId(detailDTO.getSizeId());
                 detailEntity.setColorId(detailDTO.getColorId());
-                detailEntity.setProductCode(detailDTO.getProductCode());
                 detailEntity.setPrice(detailDTO.getPrice());
                 detailEntity.setQuantity(detailDTO.getQuantity());
-                detailEntity.setStatus(detailDTO.getStatus());
+                detailEntity.setStatus(1);
+                detailEntity.setDeleteFlag(0);
 
                 // Link the detail to the main product by setting the productId
                 detailEntity.setProductId(productEntity.getId());
@@ -102,6 +115,8 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
         return "Thêm sản phẩm và các chi tiết sản phẩm thành công!";
     }
+
+
 
 
 
@@ -119,6 +134,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         productEntity.setBrandId(request.getBrandId());
         productEntity.setMaterialId(request.getMaterialId());
         productEntity.setTypeId(request.getTypeId());
+        productEntity.setDeleteFlag(request.getDeleteFlag());
 
         productRepository.save(productEntity);
 
@@ -130,15 +146,25 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     @Override
     public String deleteProduct(String id) {
         Optional<ProductEntity> existingProduct = productRepository.findById(id);
-        if (!existingProduct.isPresent()){
+        if (!existingProduct.isPresent()) {
             throw new RuntimeException("Sản phẩm không tồn tại");
         }
-        // Delete all the related ProductDetailEntities first
-        productDetailRepository.deleteById(id);
 
+        // Fetch all ProductDetailEntities associated with the ProductEntity
+        List<ProductDetailEntity> productDetails = productDetailRepository.findByProductId(id);
+        System.out.println("Found ProductDetailEntities: " + productDetails.size()); // Log the size
+
+        // Delete each ProductDetailEntity if they exist
+        if (!productDetails.isEmpty()) {
+            productDetailRepository.deleteAll(productDetails);
+            System.out.println("Deleted ProductDetailEntities for product ID: " + id); // Log the deletion
+        }
+
+        // Now delete the ProductEntity
         productRepository.deleteById(id);
         return "Xóa thành công!";
     }
+
 
     @Override
     public Page<ProductListDTO> getProductManagementResponse(FindProductManagementDTO req) {

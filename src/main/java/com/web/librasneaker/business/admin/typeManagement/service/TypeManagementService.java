@@ -12,6 +12,8 @@ public interface TypeManagementService {
     // update a TypeManagementService
     String updateType (@Valid TypeEntity type);
 
+    String updateDeleteFlagType(String id, Integer deleteFlag);
+
     // delete a TypeManagementService
     String deleteType (String id);
 

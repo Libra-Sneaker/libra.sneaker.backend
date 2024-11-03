@@ -2,6 +2,7 @@ package com.web.librasneaker.business.admin.brandManagement.service;
 
 import com.web.librasneaker.dto.brandManagement.CreateBrandRequestDTO;
 import com.web.librasneaker.dto.brandManagement.UpdateBrandRequestDTO;
+import com.web.librasneaker.dto.brandManagement.UpdateDeleteFlagRequestDTO;
 import com.web.librasneaker.entity.BrandEntity;
 import jakarta.validation.Valid;
 
@@ -19,4 +20,9 @@ public interface BrandManagementService {
 
     // get all brands
     List<BrandEntity> getAllBrand ();
+
+    String updateDeleteFlag (UpdateDeleteFlagRequestDTO request);
+
+    String updateStatus (String id, Integer status);
+
 }

@@ -1,6 +1,7 @@
 package com.web.librasneaker.dto.colorManagement;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,9 @@ public class UpdateColorDTO {
     @NotBlank(message = "Không được để trống")
     private String name;
 
-    @NotBlank(message = "Không được để trống")
-    private String description;
+    @NotNull(message = "Không được để trống")
+    private Integer status;
 
-    @NotBlank(message = "Không được để trống")
-    private String status;
+    @NotNull(message = "Không được để trống")
+    private Integer deleteFlag;
 }

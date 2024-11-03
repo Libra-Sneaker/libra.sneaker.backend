@@ -26,8 +26,8 @@ public class TypeManagementIpml implements TypeManagementService {
 
         TypeEntity typeEntity = new TypeEntity();
         typeEntity.setName(type.getName());
-        typeEntity.setDescription(type.getDescription());
-        typeEntity.setStatus(type.getStatus());
+        typeEntity.setStatus(1);
+        typeEntity.setDeleteFlag(0);
 
         typeRepository.save(typeEntity);
 
@@ -43,11 +43,27 @@ public class TypeManagementIpml implements TypeManagementService {
 
         TypeEntity typeEntity = existingType.get();
         typeEntity.setName(type.getName());
-        typeEntity.setDescription(type.getDescription());
         typeEntity.setStatus(type.getStatus());
+        typeEntity.setDeleteFlag(type.getDeleteFlag());
 
         typeRepository.save(typeEntity);
         return "Cập nhật thành công!";
+    }
+
+    @Override
+    public String updateDeleteFlagType(String id, Integer deleteFlag) {
+
+        Optional<TypeEntity> existingType = typeRepository.findById(id);
+        if (!existingType.isPresent()) {
+            throw new IllegalArgumentException("Loại sản phẩm không tồn tại");
+        }
+
+        TypeEntity typeEntity = existingType.get();
+        typeEntity.setDeleteFlag(deleteFlag);
+        typeRepository.save(typeEntity);
+
+
+        return "Đặt cờ Loại sản phẩm thành công!";
     }
 
     @Override

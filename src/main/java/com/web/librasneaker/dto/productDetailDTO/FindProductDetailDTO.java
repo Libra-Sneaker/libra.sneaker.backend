@@ -8,9 +8,7 @@ import lombok.Setter;
 public class FindProductDetailDTO {
     private String name;
 
-    private String description;
-
-    private String status;
+    private Integer status;
 
     private String brandId;
 

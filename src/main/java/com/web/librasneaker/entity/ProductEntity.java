@@ -30,10 +30,10 @@ public class ProductEntity extends PrimaryEntity {
     private String description;
 
     @Column
-    private String status;
+    private Integer status = 1;
 
     @Column
-    private String urlImage;
+    private Integer deleteFlag = 0;
 
     @Column(name = "brand_id", length = EntityProperties.LENGTH_ID)
     private String brandId;

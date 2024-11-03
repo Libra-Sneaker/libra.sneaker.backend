@@ -17,4 +17,8 @@ public interface MaterialManagementService {
 
     // get all material management services
     List<MaterialEntity> getAllMaterialServices();
+
+    String updateDeleteFlagMaterial(String id, Integer deleteFlag);
+
+    String updateStatusMaterial (String id, Integer status);
 }

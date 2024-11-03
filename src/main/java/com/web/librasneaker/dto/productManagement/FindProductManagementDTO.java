@@ -12,7 +12,7 @@ public class FindProductManagementDTO extends PageableRequest {
 
     private String description;
 
-    private String status;
+    private Integer status;
 
     private String brandId;
 
