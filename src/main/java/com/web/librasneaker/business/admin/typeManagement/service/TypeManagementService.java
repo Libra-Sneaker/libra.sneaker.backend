@@ -14,6 +14,8 @@ public interface TypeManagementService {
 
     String updateDeleteFlagType(String id, Integer deleteFlag);
 
+    String updateStatusType (String id, Integer status);
+
     // delete a TypeManagementService
     String deleteType (String id);
 

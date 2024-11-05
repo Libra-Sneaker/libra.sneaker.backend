@@ -1,11 +1,12 @@
 package com.web.librasneaker.dto.productDetailDTO;
 
+import com.web.librasneaker.business.common.base.PageableRequest;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FindProductDetailDTO {
+public class FindProductDetailDTO extends PageableRequest {
     private String name;
 
     private Integer status;
@@ -22,9 +23,5 @@ public class FindProductDetailDTO {
 
     private String price;
 
-    // biet nguoi dung dang o trang nao
-    private Integer page;
 
-    // biet nguoi dung muon xem bao nhieu phan tu tren 1 trang
-    private Integer size;
 }

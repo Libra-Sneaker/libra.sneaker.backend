@@ -22,7 +22,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         ROW_NUMBER() OVER (ORDER BY p.id DESC) AS rowNum,
         p.id AS productId,
         p.name AS productName,
-        pd.description AS description,
         b.name AS brandName,
         t.name AS typeName,
         m.name AS materialName,
@@ -86,5 +85,14 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
     Page<ProductDetailManagementResponse> getProductDetailResponse (Pageable pageable, @Param("req") FindProductDetailDTO req);
 
     List<ProductDetailEntity> findByProductId (String productId);
+
+    @Query(value = """
+    SELECT pd.product_code AS productCode 
+    FROM product_details pd 
+    ORDER BY pd.product_code DESC
+    """, nativeQuery = true)
+    List<String> findLatestProductCode();
+
+
 
 }

@@ -29,6 +29,10 @@ public class ProductDetailEntity extends PrimaryEntity {
     @Column(name = "product_id",length = EntityProperties.LENGTH_ID)
     private String productId;
 
+    @Column(name = "product_code", unique = true, length = EntityProperties.LENGTH_CODE)
+    private String productCode;
+
+
     @Column
     private Double price;
 

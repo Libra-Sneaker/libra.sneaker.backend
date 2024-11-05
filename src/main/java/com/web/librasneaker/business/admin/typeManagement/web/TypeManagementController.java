@@ -35,6 +35,11 @@ public class TypeManagementController {
         return ResponseEntity.ok().body(typeManagementService.updateType(request));
     }
 
+    @PutMapping("/updateStatus")
+    public ResponseEntity<String> updateStatusType (@RequestParam String id, @RequestParam Integer status) {
+        return ResponseEntity.ok().body(typeManagementService.updateStatusType(id, status));
+    }
+
     @PutMapping("/updateDeleteFlag")
     public ResponseEntity<String> updateType (@RequestParam String id, @RequestParam Integer deleteFlag) {
         return ResponseEntity.ok().body(typeManagementService.updateDeleteFlagType(id, deleteFlag));

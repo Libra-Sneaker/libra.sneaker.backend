@@ -67,6 +67,21 @@ public class TypeManagementIpml implements TypeManagementService {
     }
 
     @Override
+    public String updateStatusType(String id, Integer status) {
+
+        Optional<TypeEntity> existingType = typeRepository.findById(id);
+        if (!existingType.isPresent()) {
+            throw new IllegalArgumentException("Loại sản phẩm không tồn tại");
+        }
+
+        TypeEntity typeEntity = existingType.get();
+        typeEntity.setStatus(status);
+        typeRepository.save(typeEntity);
+
+        return "Cập nhật trạng thái Loại giày thành công!";
+    }
+
+    @Override
     public String deleteType(String id) {
         Optional<TypeEntity> existingType = typeRepository.findById(id);
         if (!existingType.isPresent()) {

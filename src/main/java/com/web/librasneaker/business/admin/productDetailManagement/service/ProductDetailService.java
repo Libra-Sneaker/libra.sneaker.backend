@@ -5,7 +5,10 @@ import com.web.librasneaker.dto.productDetailDTO.FindProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.ProductDetailListDTO;
 import com.web.librasneaker.dto.productDetailDTO.UpdateProductDetailManagementDTO;
 import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
+import com.web.librasneaker.entity.ProductDetailEntity;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface ProductDetailService {
 
@@ -19,4 +22,6 @@ public interface ProductDetailService {
     String updateProductDetail(UpdateProductDetailManagementDTO request);
 
     String deleteProductDetail(String id);
+
+    List<ProductDetailEntity> getProductDetail ();
 }

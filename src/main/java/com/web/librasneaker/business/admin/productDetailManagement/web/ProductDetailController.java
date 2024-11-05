@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/productDetail")
@@ -36,6 +38,12 @@ public class ProductDetailController {
     @GetMapping("/search")
     public ResponseEntity<Page<ProductDetailListDTO>> searchProduct(FindProductDetailDTO request) {
         Page<ProductDetailListDTO> response = productDetailService.getAllProductDetails(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<ProductDetailEntity>> getAllProductDetail( ) {
+        List<ProductDetailEntity> response = productDetailService.getProductDetail();
         return ResponseEntity.ok(response);
     }
 

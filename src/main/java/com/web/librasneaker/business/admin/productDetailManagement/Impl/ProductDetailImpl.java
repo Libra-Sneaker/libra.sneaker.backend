@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,11 +52,29 @@ public class ProductDetailImpl implements ProductDetailService {
         return pageDTO;
     }
 
+    // gen productCode
+    private String generateProductCode() {
+        // Get the sorted list of product codes
+        List<String> codes = productDetailRepository.findLatestProductCode();
+
+        int nextNumber = 1;
+        if (!codes.isEmpty()) {
+            String latestCode = codes.get(0);
+
+            if (latestCode != null && latestCode.startsWith("SP")) {
+                // Extract the numeric part of the latest code and increment it
+                nextNumber = Integer.parseInt(latestCode.substring(2)) + 1;
+            }
+        }
+
+        // Format the code as SP0001, SP0002, etc.
+        return String.format("SP%04d", nextNumber);
+    }
+
+
+
     @Override
     public String createProductDetail(CreateProductDetailDTO createProductDetail) {
-
-
-
 
 //        Optional<ProductEntity> existingProduct = productRepository.findById(CreateProductDetailDTO);
         Optional<ProductEntity> existingProduct = productRepository.findById(createProductDetail.getProductId());
@@ -72,6 +91,10 @@ public class ProductDetailImpl implements ProductDetailService {
         productDetail.setSizeId(createProductDetail.getSizeId());
         productDetail.setStatus(1);
         productDetail.setDeleteFlag(0);
+
+        // Generate and set the product code
+        productDetail.setProductCode(generateProductCode());
+
         productDetailRepository.save(productDetail);
 
         return "Thêm chi tiết sản phẩm thành công!";
@@ -125,5 +148,10 @@ public class ProductDetailImpl implements ProductDetailService {
         // Delete the specific product detail
         productDetailRepository.deleteById(id);
         return "Xóa chi tiết sản phẩm thành công!";
+    }
+
+    @Override
+    public List<ProductDetailEntity> getProductDetail() {
+        return productDetailRepository.findAll();
     }
 }
