@@ -30,6 +30,9 @@ public class CreateProductDetailManagementDTO {
     @NotNull(message = "Không được để trống")
     private Long quantity;
 
+    @NotBlank(message = "Không được để trống")
+    private String urlImg;
+
     private Integer status = 1;
 
 

@@ -9,6 +9,8 @@ public class ProductDetailListDTO {
 
     private Long rowNum;
 
+    private String productCode;
+
     private String id;
 
     private String productName;
@@ -30,5 +32,7 @@ public class ProductDetailListDTO {
     private Integer status;
 
     private Long quantity;
+
+    private String urlImg;
 
 }

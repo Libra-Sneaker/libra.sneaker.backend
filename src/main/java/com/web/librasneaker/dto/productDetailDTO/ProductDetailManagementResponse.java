@@ -4,6 +4,8 @@ public interface ProductDetailManagementResponse {
 
     Long getRowNum();
 
+    String getProductCode();
+
     String getProductId();
 
     String getProductName();
@@ -27,4 +29,6 @@ public interface ProductDetailManagementResponse {
     Long getCreatedDate();
 
     Long getQuantity();
+
+    String getUrlImg();
 }

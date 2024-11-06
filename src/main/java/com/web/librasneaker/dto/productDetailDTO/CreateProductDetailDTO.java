@@ -14,9 +14,6 @@ public class CreateProductDetailDTO {
     private String productId;
 
     @NotBlank(message = "Không được để trống")
-    private String productCode;
-
-    @NotBlank(message = "Không được để trống")
     private Long quantity;
 
     @NotNull (message = "Không được để trống")

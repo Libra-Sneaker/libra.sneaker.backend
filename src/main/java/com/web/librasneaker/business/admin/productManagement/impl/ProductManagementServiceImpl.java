@@ -102,11 +102,17 @@ public class ProductManagementServiceImpl implements ProductManagementService {
                 detailEntity.setColorId(detailDTO.getColorId());
                 detailEntity.setPrice(detailDTO.getPrice());
                 detailEntity.setQuantity(detailDTO.getQuantity());
+                detailEntity.setUrlImage(detailDTO.getUrlImg());
                 detailEntity.setStatus(1);
                 detailEntity.setDeleteFlag(0);
 
                 // Link the detail to the main product by setting the productId
                 detailEntity.setProductId(productEntity.getId());
+
+                // Generate and set the productCode
+                detailEntity.setProductCode(
+
+                        generateProductCode());
 
                 // Save the detail entity in the repository
                 productDetailRepository.save(detailEntity);
@@ -116,7 +122,21 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         return "Thêm sản phẩm và các chi tiết sản phẩm thành công!";
     }
 
+    // Helper method to generate a unique product code
+    private String generateProductCode() {
+        List<String> codes = productDetailRepository.findLatestProductCode();
+        int nextNumber = 1;
 
+        if (!codes.isEmpty()) {
+            String latestCode = codes.get(0);
+
+            if (latestCode != null && latestCode.startsWith("SP")) {
+                nextNumber = Integer.parseInt(latestCode.substring(2)) + 1;
+            }
+        }
+
+        return String.format("SP%04d", nextNumber);
+    }
 
 
 

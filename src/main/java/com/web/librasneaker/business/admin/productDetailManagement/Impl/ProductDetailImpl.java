@@ -6,9 +6,6 @@ import com.web.librasneaker.dto.productDetailDTO.FindProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.ProductDetailListDTO;
 import com.web.librasneaker.dto.productDetailDTO.ProductDetailManagementResponse;
 import com.web.librasneaker.dto.productDetailDTO.UpdateProductDetailManagementDTO;
-import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
-import com.web.librasneaker.dto.productManagement.ProductListDTO;
-import com.web.librasneaker.dto.productManagement.ProductManagementResponse;
 import com.web.librasneaker.entity.ProductDetailEntity;
 import com.web.librasneaker.entity.ProductEntity;
 import com.web.librasneaker.repository.ProductDetailRepository;
@@ -52,53 +49,50 @@ public class ProductDetailImpl implements ProductDetailService {
         return pageDTO;
     }
 
-    // gen productCode
+    // Method to generate auto-incremented productCode
     private String generateProductCode() {
-        // Get the sorted list of product codes
         List<String> codes = productDetailRepository.findLatestProductCode();
-
         int nextNumber = 1;
+
         if (!codes.isEmpty()) {
             String latestCode = codes.get(0);
 
             if (latestCode != null && latestCode.startsWith("SP")) {
-                // Extract the numeric part of the latest code and increment it
                 nextNumber = Integer.parseInt(latestCode.substring(2)) + 1;
             }
         }
 
-        // Format the code as SP0001, SP0002, etc.
         return String.format("SP%04d", nextNumber);
     }
 
 
-
     @Override
     public String createProductDetail(CreateProductDetailDTO createProductDetail) {
-
-//        Optional<ProductEntity> existingProduct = productRepository.findById(CreateProductDetailDTO);
         Optional<ProductEntity> existingProduct = productRepository.findById(createProductDetail.getProductId());
+
         if (!existingProduct.isPresent()) {
             throw new IllegalArgumentException("Sản phẩm không tồn tại");
         }
 
-        // Create product detail
         ProductDetailEntity productDetail = new ProductDetailEntity();
         productDetail.setProductId(existingProduct.get().getId());
         productDetail.setPrice(createProductDetail.getPrice());
         productDetail.setQuantity(createProductDetail.getQuantity());
         productDetail.setColorId(createProductDetail.getColorId());
         productDetail.setSizeId(createProductDetail.getSizeId());
-        productDetail.setStatus(1);
+        productDetail.setStatus(createProductDetail.getStatus());
         productDetail.setDeleteFlag(0);
 
-        // Generate and set the product code
+        // Generate and assign the product code
         productDetail.setProductCode(generateProductCode());
 
+        // Save the product detail entity
         productDetailRepository.save(productDetail);
 
         return "Thêm chi tiết sản phẩm thành công!";
     }
+
+
 
     @Override
     public String updateProductDetail(UpdateProductDetailManagementDTO request) {

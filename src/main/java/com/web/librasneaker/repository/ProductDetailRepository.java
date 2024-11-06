@@ -22,6 +22,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         ROW_NUMBER() OVER (ORDER BY p.id DESC) AS rowNum,
         p.id AS productId,
         p.name AS productName,
+        pd.product_code AS productCode,
+        pd.url_image AS urlImg,
         b.name AS brandName,
         t.name AS typeName,
         m.name AS materialName,
@@ -47,6 +49,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         sizes sz ON pd.size_id = sz.id
     WHERE 
         (:#{#req.name} IS NULL OR :#{#req.name} LIKE '' OR p.name LIKE %:#{#req.name}%)
+        AND (:#{#req.id} IS NULL OR :#{#req.id} LIKE '' OR p.id = :#{#req.id})
         AND (:#{#req.brandId} IS NULL OR :#{#req.brandId} LIKE '' OR b.id = :#{#req.brandId})
         AND (:#{#req.typeId} IS NULL OR :#{#req.typeId} LIKE '' OR t.id = :#{#req.typeId})
         AND (:#{#req.materialId} IS NULL OR :#{#req.materialId} LIKE '' OR m.id = :#{#req.materialId})
@@ -73,6 +76,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         sizes sz ON pd.size_id = sz.id
     WHERE 
         (:#{#req.name} IS NULL OR :#{#req.name} LIKE '' OR p.name LIKE %:#{#req.name}%)
+        AND (:#{#req.id} IS NULL OR :#{#req.id} LIKE '' OR p.id = :#{#req.id})
         AND (:#{#req.brandId} IS NULL OR :#{#req.brandId} LIKE '' OR b.id = :#{#req.brandId})
         AND (:#{#req.typeId} IS NULL OR :#{#req.typeId} LIKE '' OR t.id = :#{#req.typeId})
         AND (:#{#req.materialId} IS NULL OR :#{#req.materialId} LIKE '' OR m.id = :#{#req.materialId})

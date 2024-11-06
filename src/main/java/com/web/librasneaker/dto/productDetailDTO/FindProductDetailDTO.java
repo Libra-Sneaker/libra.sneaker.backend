@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FindProductDetailDTO extends PageableRequest {
+    private String id;
+
     private String name;
 
     private Integer status;
