@@ -10,7 +10,7 @@ public interface ProductManagementResponse {
 
     String getProductName();
 
-    CriteriaBuilder.In getStatus();
+    Integer getStatus();
 
     Long getCreatedDate();
 

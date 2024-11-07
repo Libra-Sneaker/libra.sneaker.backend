@@ -16,5 +16,6 @@ public interface ProductManagementService {
 
     Page<ProductListDTO> getProductManagementResponse (FindProductManagementDTO req);
 
+    String updateStatus (String id, Integer status);
 
 }

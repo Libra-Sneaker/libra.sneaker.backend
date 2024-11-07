@@ -75,13 +75,16 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(request.getName());
         productEntity.setDescription(request.getDescription());
-        productEntity.setStatus(1);
+        productEntity.setStatus(1);  // Default status is 1 (active)
         productEntity.setBrandId(request.getBrandId());
         productEntity.setMaterialId(request.getMaterialId());
         productEntity.setTypeId(request.getTypeId());
         productEntity.setDeleteFlag(0);
 
         productRepository.save(productEntity);
+
+        // Initialize a variable to track the total quantity
+        long totalQuantity = 0;
 
         // Save each ProductDetailEntity linked to the ProductEntity
         if (request.getDetails() != null) {
@@ -110,13 +113,20 @@ public class ProductManagementServiceImpl implements ProductManagementService {
                 detailEntity.setProductId(productEntity.getId());
 
                 // Generate and set the productCode
-                detailEntity.setProductCode(
-
-                        generateProductCode());
+                detailEntity.setProductCode(generateProductCode());
 
                 // Save the detail entity in the repository
                 productDetailRepository.save(detailEntity);
+
+                // Add quantity to the total
+                totalQuantity += detailDTO.getQuantity();
             }
+        }
+
+        // If total quantity of product details is 0, set product status to 0 (inactive)
+        if (totalQuantity == 0) {
+            productEntity.setStatus(0);  // Set the product status to inactive
+            productRepository.save(productEntity);  // Update the product status
         }
 
         return "Thêm sản phẩm và các chi tiết sản phẩm thành công!";
@@ -158,7 +168,15 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
         productRepository.save(productEntity);
 
+        // Recalculate total quantity
+        List<ProductDetailEntity> productDetails = productDetailRepository.findByProductId(productEntity.getId());
+        long totalQuantity = productDetails.stream().mapToLong(ProductDetailEntity::getQuantity).sum();
 
+        // If total quantity of product details is 0, set product status to 0 (inactive)
+        if (totalQuantity == 0) {
+            productEntity.setStatus(0);  // Set the product status to inactive
+            productRepository.save(productEntity);  // Update the product status
+        }
 
         return "Cập nhật sản phẩm thành công!";
     }
@@ -200,6 +218,19 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         return pageDTO;
     }
 
+    @Override
+    public String updateStatus(String id, Integer status) {
+        Optional<ProductEntity> existingProduct = productRepository.findById(id);
+        if (!existingProduct.isPresent()) {
+            throw new RuntimeException("Sản phẩm không tồn tại");
+        }
+
+        ProductEntity productEntity = existingProduct.get();
+        productEntity.setStatus(status);
+        productRepository.save(productEntity);
+
+        return "Cập nhật trạng thái thành công!";
+    }
 
 
 }

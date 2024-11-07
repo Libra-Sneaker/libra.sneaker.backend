@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
@@ -39,6 +40,11 @@ public class ProductManagementController {
     @PutMapping("/update")
     public ResponseEntity<String> updateProduct(@RequestBody UpdateProductManagementDTO request) {
         return ResponseEntity.ok().body(productManagementService.updateProduct(request));
+    }
+
+    @PutMapping("/updateStatus")
+    public ResponseEntity<String> updateStatusProduct(@RequestParam String id, @RequestParam Integer status) {
+        return ResponseEntity.ok().body(productManagementService.updateStatus(id, status));
     }
 
     @DeleteMapping("delete/{id}")

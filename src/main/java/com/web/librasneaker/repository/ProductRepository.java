@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<ProductEntity,String> {
     @Query(value = """
     SELECT
-        ROW_NUMBER() OVER (ORDER BY p.id DESC) AS rowNum,
+        ROW_NUMBER() OVER (ORDER BY p.created_date DESC) AS rowNum,
         p.id AS productId,
         p.name AS productName,
         COALESCE(SUM(pd.quantity), 0) AS totalQuantity,
@@ -28,10 +28,10 @@ public interface ProductRepository extends JpaRepository<ProductEntity,String> {
         product_details pd ON p.id = pd.product_id
     WHERE 
         (:#{#req.name} IS NULL OR :#{#req.name} = '' OR p.name LIKE %:#{#req.name}%)
-        AND (:#{#req.status} IS NULL OR :#{#req.status} = 'all' OR p.status = :#{#req.status})
+        AND (:#{#req.status} IS NULL OR :#{#req.status} LIKE '' OR p.status = :#{#req.status})
     GROUP BY
         p.id, p.name, p.status
-    ORDER BY p.id DESC
+    ORDER BY p.created_date DESC
     """,
             countQuery = """
     SELECT COUNT(p.id)
@@ -41,8 +41,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity,String> {
         product_details pd ON p.id = pd.product_id
     WHERE 
         (:#{#req.name} IS NULL OR :#{#req.name} = '' OR p.name LIKE %:#{#req.name}%)
-        AND (:#{#req.status} IS NULL OR :#{#req.status} = '' OR p.status = :#{#req.status})
-    GROUP BY p.id, p.name, p.status
+        AND (:#{#req.status} IS NULL OR :#{#req.status} LIKE '' OR p.status = :#{#req.status})
+    GROUP BY p.id, p.name, p.status, p.created_date
     """,
             nativeQuery = true)
     Page<ProductManagementResponse> getProductManagementResponse(Pageable pageable, @Param("req") FindProductManagementDTO req);
