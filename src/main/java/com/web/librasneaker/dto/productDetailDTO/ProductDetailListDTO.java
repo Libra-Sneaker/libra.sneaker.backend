@@ -11,7 +11,9 @@ public class ProductDetailListDTO {
 
     private String productCode;
 
-    private String id;
+    private String productId;
+
+    private String productDetailId;
 
     private String productName;
 
@@ -25,7 +27,7 @@ public class ProductDetailListDTO {
 
     private String colorName;
 
-    private String price;
+    private Double price;
 
     private Long createdDate;
 

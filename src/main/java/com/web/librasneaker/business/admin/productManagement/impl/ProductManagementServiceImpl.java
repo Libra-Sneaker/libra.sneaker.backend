@@ -232,5 +232,20 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         return "Cập nhật trạng thái thành công!";
     }
 
+    @Override
+    public String updateNameAndStatus(String id, String name, Integer status) {
+        Optional<ProductEntity> existingProduct = productRepository.findById(id);
+        if (!existingProduct.isPresent()) {
+            throw new RuntimeException("Sản phẩm không tồn tại");
+        }
+
+        ProductEntity productEntity = existingProduct.get();
+        productEntity.setName(name);
+        productEntity.setStatus(status);
+        productRepository.save(productEntity);
+
+        return "Cập nhật tên và trạng thái thành công!";
+    }
+
 
 }

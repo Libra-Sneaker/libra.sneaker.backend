@@ -47,6 +47,11 @@ public class ProductManagementController {
         return ResponseEntity.ok().body(productManagementService.updateStatus(id, status));
     }
 
+    @PutMapping("/updateNameAndStatus")
+    public ResponseEntity<String> updateNameAndStatusProduct(@RequestParam String id, @RequestParam String name, @RequestParam Integer status) {
+        return ResponseEntity.ok().body(productManagementService.updateNameAndStatus(id, name, status));
+    }
+
     @DeleteMapping("delete/{id}")
     public String deleteProduct(@PathVariable String id) {
 

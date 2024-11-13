@@ -8,6 +8,8 @@ public interface ProductDetailManagementResponse {
 
     String getProductId();
 
+    String getProductDetailId();
+
     String getProductName();
 
     String getBrandName();

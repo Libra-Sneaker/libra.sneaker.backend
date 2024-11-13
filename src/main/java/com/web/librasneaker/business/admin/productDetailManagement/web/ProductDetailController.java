@@ -4,6 +4,7 @@ import com.web.librasneaker.business.admin.productDetailManagement.service.Produ
 import com.web.librasneaker.dto.productDetailDTO.CreateProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.FindProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.ProductDetailListDTO;
+import com.web.librasneaker.dto.productDetailDTO.SaveListProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.UpdateProductDetailManagementDTO;
 import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.ProductListDTO;
@@ -50,6 +51,11 @@ public class ProductDetailController {
     @PutMapping("/update")
     public ResponseEntity<String> updateProductDetail(@RequestBody UpdateProductDetailManagementDTO request) {
         return ResponseEntity.ok().body(productDetailService.updateProductDetail(request));
+    }
+
+    @PutMapping("/saveList")
+    public ResponseEntity<String> saveListProductDetail(@RequestBody List<SaveListProductDetailDTO> request) {
+        return ResponseEntity.ok().body(productDetailService.saveListProductDetail(request));
     }
 
     @DeleteMapping("delete/{id}")

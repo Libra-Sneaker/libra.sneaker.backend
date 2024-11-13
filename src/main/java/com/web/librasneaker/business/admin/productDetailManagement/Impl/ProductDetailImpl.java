@@ -5,6 +5,7 @@ import com.web.librasneaker.dto.productDetailDTO.CreateProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.FindProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.ProductDetailListDTO;
 import com.web.librasneaker.dto.productDetailDTO.ProductDetailManagementResponse;
+import com.web.librasneaker.dto.productDetailDTO.SaveListProductDetailDTO;
 import com.web.librasneaker.dto.productDetailDTO.UpdateProductDetailManagementDTO;
 import com.web.librasneaker.entity.ProductDetailEntity;
 import com.web.librasneaker.entity.ProductEntity;
@@ -148,4 +149,29 @@ public class ProductDetailImpl implements ProductDetailService {
     public List<ProductDetailEntity> getProductDetail() {
         return productDetailRepository.findAll();
     }
+
+    @Override
+    public String saveListProductDetail(List<SaveListProductDetailDTO> request) {
+        for (SaveListProductDetailDTO productDetailDTO : request) {
+            Optional<ProductDetailEntity> existingProductDetail = productDetailRepository.findById(productDetailDTO.getId());
+            if (!existingProductDetail.isPresent()) {
+                throw new IllegalArgumentException("Chi tiết sản phẩm không tồn tại cho sản phẩm này");
+            }
+
+            ProductDetailEntity productDetail = existingProductDetail.get();
+            productDetail.setQuantity(productDetailDTO.getQuantity());
+            productDetail.setPrice(productDetailDTO.getPrice());
+
+            System.out.println(productDetailDTO.getStatus());
+
+            productDetail.setStatus(productDetailDTO.getStatus());
+            productDetail.setUrlImage(productDetailDTO.getUrlImg());
+
+
+
+            productDetailRepository.save(productDetail);
+        }
+        return "Cập nhật chi tiết sản phẩm thành công";
+    }
+
 }

@@ -18,4 +18,6 @@ public interface ProductManagementService {
 
     String updateStatus (String id, Integer status);
 
+    // update name and status
+    String updateNameAndStatus(String id, String name, Integer status);
 }

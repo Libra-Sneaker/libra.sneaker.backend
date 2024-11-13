@@ -9,7 +9,7 @@ import lombok.Setter;
 public class FindProductDetailDTO extends PageableRequest {
     private String id;
 
-    private String name;
+    private String productCode;
 
     private Integer status;
 
@@ -23,7 +23,10 @@ public class FindProductDetailDTO extends PageableRequest {
 
     private String sizeId;
 
-    private String price;
+    private Double price;
 
+    private Double minPrice;
+
+    private Double maxPrice;
 
 }
