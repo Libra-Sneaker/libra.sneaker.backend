@@ -63,7 +63,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
 
         Runnable emailTask = () -> {
             String htmlBody = "<p>Mật khẩu của bạn là:</p><br/><div style=\"text-align: center; font-weight: bold; font-size: 25px;\"><strong>" + generatedPassword + "</strong></div>";
-            emailSender.sendEmail(new String[]{request.getEmail()}, "[TCT-FUND] Thông báo mật khẩu", "Thông báo mật khẩu sau khi đăng ký tài khoản", htmlBody);
+            emailSender.sendEmail(new String[]{request.getEmail()}, "[LIBRA-SNEAKER] Thông báo mật khẩu", "Thông báo mật khẩu sau khi đăng ký tài khoản", htmlBody);
         };
         new Thread(emailTask).start();
 
@@ -95,8 +95,12 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
         Optional<EmployeeEntity> existingEmployeeOpt = employeeRepository.findByCode(request.getCode());
 
         if (!existingEmployeeOpt.isPresent()) {
-            // Nếu không tìm thấy nhân viên, trả về thông báo lỗi
-            return "Employee not found with code: " + request.getCode();
+            return "Không tìm thấy nhân viên với mã: " + request.getCode();
+        }
+
+        Optional<EmployeeEntity> findEmail = employeeRepository.findByEmailAndIdNot(request.getEmail(),request.getId());
+        if (findEmail.isPresent()) {
+            return "Email này đã tồn tại với nhân viên khác!";
         }
 
         // Lấy đối tượng EmployeeEntity cần cập nhật
@@ -124,6 +128,19 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
         Pageable pageable = PageRequest.of(req.getPage(), req.getSize());
 
         Page<EmployeeResponse> pageResponse = employeeRepository.getEmployeeResponse(pageable, req);
+
+        Page<ListEmployeeDTO> pageDTO = pageResponse.map(employeeResponse ->
+                modelMapper.map(employeeResponse, ListEmployeeDTO.class)
+        );
+
+        return pageDTO;
+    }
+
+    @Override
+    public Page<ListEmployeeDTO> searchEmployeesAllInOne(FindEmployeeDTO req) {
+        Pageable pageable = PageRequest.of(req.getPage(), req.getSize());
+
+        Page<EmployeeResponse> pageResponse = employeeRepository.searchEmployee(pageable, req);
 
         Page<ListEmployeeDTO> pageDTO = pageResponse.map(employeeResponse ->
                 modelMapper.map(employeeResponse, ListEmployeeDTO.class)

@@ -1,6 +1,5 @@
-package com.web.librasneaker.dto.employeeManagement;
+package com.web.librasneaker.dto.billManagement;
 
-import com.web.librasneaker.config.constant.enumconstant.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -10,37 +9,30 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UpdateEmployeeDTO {
-    @NotBlank(message = "Không được để trống")
-    private String id;
+public class ListBillDTO {
 
     @NotBlank(message = "Không được để trống")
     private String code;
 
     @NotBlank(message = "Không được để trống")
-    private String name;
+    private String type;
 
     @NotNull(message = "Không được để trống")
-    private Date dateOfBirth;
+    private Double totalAmount;
+
+    @NotNull(message = "Không được để trống")
+    private Date datePayment;
 
     @NotBlank(message = "Không được để trống")
     private String address;
 
     @NotNull(message = "Không được để trống")
-    private String phoneNumber;
-
-    @NotBlank(message = "Không được để trống")
-    private String email;
+    private Integer status;
 
     @NotNull(message = "Không được để trống")
-    private Integer sex;
+    private String customerName;
 
     @NotNull(message = "Không được để trống")
-    private Integer deleteFlag;
+    private String employeeName;
 
-    @NotBlank(message = "Không được để trống")
-    private String avatar;
-
-    @NotNull(message = "Không được để trống")
-    private Role role;
 }

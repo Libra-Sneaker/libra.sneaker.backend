@@ -13,5 +13,7 @@ public interface EmployeeManagementService {
 
     Page<ListEmployeeDTO> searchEmployees (FindEmployeeDTO req);
 
+    Page<ListEmployeeDTO> searchEmployeesAllInOne (FindEmployeeDTO req);
+
     String updateStatusEmployee (String id, Integer deleteFlag);
 }

@@ -32,13 +32,16 @@ public class CustomerEntity extends PrimaryEntity {
     private Date dateOfBirth;
 
     @Column(length = EntityProperties.LENGTH_PHONE)
-    private String phone;
+    private String phoneNumber;
 
     @Column(length = EntityProperties.LENGTH_EMAIL)
     private String email;
 
     @Column
     private Integer sex;
+
+    @Column(length = EntityProperties.WALLET_ADDRESS)
+    private String address;
 
     @Column(length = EntityProperties.LENGTH_PASSWORD)
     private String password;

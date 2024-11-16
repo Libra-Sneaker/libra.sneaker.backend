@@ -51,6 +51,12 @@ public class EmployeeManagementController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/searchAllInOne")
+    public ResponseEntity<Page<ListEmployeeDTO>> searchEmployeesAllInOne(FindEmployeeDTO request) {
+        Page<ListEmployeeDTO> response = employeeManagementService.searchEmployeesAllInOne(request);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/updateStatus")
     public ResponseEntity<String> updateStatusEmployee (@RequestParam String id, @RequestParam Integer deleteFlag) {
         return ResponseEntity.ok().body(employeeManagementService.updateStatusEmployee(id, deleteFlag));

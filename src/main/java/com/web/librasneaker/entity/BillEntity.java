@@ -41,10 +41,10 @@ public class BillEntity extends PrimaryEntity {
     @Column
     private Integer status;
 
-    @Column(name = "employee-id",length = EntityProperties.LENGTH_ID)
+    @Column(name = "employee_id",length = EntityProperties.LENGTH_ID)
     private String employeeId;
 
-    @Column(name = "customer-id",length = EntityProperties.LENGTH_ID)
+    @Column(name = "customer_id",length = EntityProperties.LENGTH_ID)
     private String customerId;
 
 }
