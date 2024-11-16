@@ -12,6 +12,8 @@ import lombok.Setter;
 import org.hibernate.Length;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "bills")
 @AllArgsConstructor
@@ -20,6 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter
 @DynamicUpdate
 public class BillEntity extends PrimaryEntity {
+
     @Column(length = EntityProperties.LENGTH_CODE)
     private String code;
 
@@ -30,10 +33,13 @@ public class BillEntity extends PrimaryEntity {
     private Double totalAmount;
 
     @Column(name = "date_payment")
-    private String datePayment;
+    private Date datePayment;
 
     @Column
     private String address;
+
+    @Column
+    private Integer status;
 
     @Column(name = "employee-id",length = EntityProperties.LENGTH_ID)
     private String employeeId;
