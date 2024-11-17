@@ -4,6 +4,10 @@ import java.util.Date;
 
 public interface BillResponse {
 
+    String getId();
+
+    Integer getRowNum();
+
     String getBillCode();
 
     String getType();
@@ -19,4 +23,10 @@ public interface BillResponse {
     String getEmployeeName();
 
     String getCustomerName();
+
+    Long getCreatedDate();
+
+    String getPhonenumber();
+
+    String getRecipient();
 }

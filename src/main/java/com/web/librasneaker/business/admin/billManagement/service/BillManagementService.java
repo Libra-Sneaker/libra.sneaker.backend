@@ -6,7 +6,11 @@ import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.ProductListDTO;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 public interface BillManagementService {
 
     Page<ListBillDTO> getBillResponse (FindBillDTO req);
+
+    Optional<ListBillDTO> getInfoBill (String id);
 }

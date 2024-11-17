@@ -24,5 +24,8 @@ public class BillHistoryEntity extends PrimaryEntity {
     private String billId;
 
     @Column
+    private Integer status;
+
+    @Column
     private String note;
 }

@@ -11,28 +11,29 @@ import java.util.Date;
 @Setter
 public class ListBillDTO {
 
-    @NotBlank(message = "Không được để trống")
+    private String id;
+
+    private Integer rowNum;
+
     private String code;
 
-    @NotBlank(message = "Không được để trống")
     private String type;
 
-    @NotNull(message = "Không được để trống")
     private Double totalAmount;
 
-    @NotNull(message = "Không được để trống")
     private Date datePayment;
 
-    @NotBlank(message = "Không được để trống")
     private String address;
 
-    @NotNull(message = "Không được để trống")
     private Integer status;
 
-    @NotNull(message = "Không được để trống")
     private String customerName;
 
-    @NotNull(message = "Không được để trống")
     private String employeeName;
 
+    private Long createdDate;
+
+    private String phoneNumber;
+
+    private String recipient;
 }

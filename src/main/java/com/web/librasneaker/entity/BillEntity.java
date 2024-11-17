@@ -35,8 +35,14 @@ public class BillEntity extends PrimaryEntity {
     @Column(name = "date_payment")
     private Date datePayment;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column
     private String address;
+
+    @Column
+    private String recipient;
 
     @Column
     private Integer status;
