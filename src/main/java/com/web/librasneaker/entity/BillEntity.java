@@ -47,6 +47,9 @@ public class BillEntity extends PrimaryEntity {
     @Column
     private Integer status;
 
+    @Column
+    private Integer deleteFlag;
+
     @Column(name = "employee_id",length = EntityProperties.LENGTH_ID)
     private String employeeId;
 

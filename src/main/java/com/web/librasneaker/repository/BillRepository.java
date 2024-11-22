@@ -51,13 +51,15 @@ public interface BillRepository extends JpaRepository<BillEntity,String> {
         LEFT JOIN employees e ON e.id = b.employee_id
         WHERE
           (:#{#req.searchTerm} IS NULL OR :#{#req.searchTerm} LIKE '' OR
-                   b.code LIKE %:#{#req.searchTerm}% OR
-                   c.name LIKE %:#{#req.searchTerm}%)
-                  AND (:#{#req.datePaymentStart} IS NULL OR b.date_payment >= :#{#req.datePaymentStart})
-                  AND (:#{#req.datePaymentEnd} IS NULL OR b.date_payment <= :#{#req.datePaymentEnd})
-                  AND (:#{#req.status} IS NULL OR b.status = :#{#req.status})
+           b.code LIKE %:#{#req.searchTerm}% OR
+           c.name LIKE %:#{#req.searchTerm}%)
+          AND (:#{#req.datePaymentStart} IS NULL OR b.date_payment >= :#{#req.datePaymentStart})
+          AND (:#{#req.datePaymentEnd} IS NULL OR b.date_payment <= :#{#req.datePaymentEnd})
+          AND (:#{#req.status} IS NULL OR b.status = :#{#req.status})
     """, nativeQuery = true)
         Page<BillResponse> getBillResponse(Pageable pageable, @Param("req") FindBillDTO req);
+
+
 
     @Query(value = """
     SELECT
@@ -86,8 +88,20 @@ public interface BillRepository extends JpaRepository<BillEntity,String> {
 """, nativeQuery = true)
     Optional<BillResponse> getInfoBill(@Param("id") String id);
 
-
     Optional<BillEntity> getBillEntityByCode(String code);
+
+    Optional<BillEntity> findBillById(String id);
+
+    @Query("SELECT MAX(b.code) FROM BillEntity b")
+    String findMaxBillCode();
+
+    // Truy vấn tìm hóa đơn theo trạng thái
+    List<BillEntity> findByStatus(Integer status);
+
+    List<BillEntity> findByDeleteFlag(Integer deleteFlag);
+
+    @Query("SELECT b FROM BillEntity b WHERE b.status = :status AND b.deleteFlag = :deleteFlag")
+    List<BillEntity> findByStatusAndDeleteFlag(@Param("status") Integer status, @Param("deleteFlag") Integer deleteFlag);
 
 
 }

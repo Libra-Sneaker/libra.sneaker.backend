@@ -11,5 +11,4 @@ public class CreateBrandRequestDTO {
     @NotBlank(message = "Không được để trống")
     private String name;
 
-
 }

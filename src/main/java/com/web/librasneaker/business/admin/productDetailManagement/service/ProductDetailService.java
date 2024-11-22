@@ -16,6 +16,9 @@ public interface ProductDetailService {
     // get all
     Page<ProductDetailListDTO> getAllProductDetails (FindProductDetailDTO req);
 
+    Page<ProductDetailListDTO> getProductCounterSale (FindProductDetailDTO req);
+
+
     // create a new ProductDetailService
     String createProductDetail (CreateProductDetailDTO createProductDetail);
 

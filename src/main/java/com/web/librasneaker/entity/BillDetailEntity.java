@@ -32,4 +32,7 @@ public class BillDetailEntity extends PrimaryEntity {
     @Column()
     private double price;
 
+    @Column
+    private Integer deleteFlag;
+
 }

@@ -50,6 +50,11 @@ public class ProductDetailImpl implements ProductDetailService {
         return pageDTO;
     }
 
+    @Override
+    public Page<ProductDetailListDTO> getProductCounterSale(FindProductDetailDTO req) {
+        return null;
+    }
+
     // Method to generate auto-incremented productCode
     private String generateProductCode() {
         List<String> codes = productDetailRepository.findLatestProductCode();

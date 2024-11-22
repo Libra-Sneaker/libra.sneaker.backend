@@ -24,9 +24,15 @@ public class TransactionEntity extends PrimaryEntity {
     private String billId;
 
     @Column(name = "payment_id", length = EntityProperties.LENGTH_ID)
-    private String paymentId;
+    private String paymentMethodId;
 
     @Column
     private Double money;
+
+    @Column
+    private Integer status;
+
+    @Column
+    private Integer type;
 
 }

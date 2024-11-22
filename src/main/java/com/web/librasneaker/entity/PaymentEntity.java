@@ -12,7 +12,7 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payment_method")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,6 +20,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class PaymentEntity extends PrimaryEntity {
 
-    @Column(length = EntityProperties.LENGTH_NAME)
-    private String name;
+    @Column(name = "type_method")
+    private Integer typeMethod;
+
 }

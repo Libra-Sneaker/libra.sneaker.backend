@@ -61,7 +61,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         AND ((:#{#req.minPrice} IS NULL OR pd.price >= :#{#req.minPrice})
             AND (:#{#req.maxPrice} IS NULL OR pd.price <= :#{#req.maxPrice}))
         
-    ORDER BY p.id DESC
+    ORDER BY pd.created_date DESC
     """, countQuery = """
     SELECT COUNT(p.id) 
     FROM
