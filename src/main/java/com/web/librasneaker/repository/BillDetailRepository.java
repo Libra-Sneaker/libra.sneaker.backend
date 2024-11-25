@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BillDetailRepository extends JpaRepository<BillDetailEntity,String> {
@@ -20,7 +21,9 @@ public interface BillDetailRepository extends JpaRepository<BillDetailEntity,Str
             bd.price as price,
             bd.quantity as quantity,
             c.name as color,
-            s.name as size
+            s.name as size,
+            bd.product_detail_id as productDetailId,
+            pd.quantity as productDetailQuantity
         FROM
             bill_details bd
          LEFT JOIN
@@ -36,4 +39,7 @@ public interface BillDetailRepository extends JpaRepository<BillDetailEntity,Str
             
         """, nativeQuery = true)
     List<BillDetailResponse> getBillDetail(@Param("billId") String billId, @Param("deleteFlag") Integer deleteFlag);
+
+    @Query("SELECT bd FROM BillDetailEntity bd WHERE bd.billId = :billId AND bd.productDetailId = :productDetailId AND bd.deleteFlag = 0")
+    Optional<BillDetailEntity> findByBillIdAndProductDetailId(@Param("billId") String billId, @Param("productDetailId") String productDetailId);
 }

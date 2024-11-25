@@ -21,4 +21,8 @@ public class ListBillDetailDTO {
 
     private String size;
 
+    private String productDetailId;
+
+    private Integer productDetailQuantity;
+
 }

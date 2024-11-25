@@ -15,4 +15,8 @@ public interface BillDetailResponse {
     String getSize();
 
     Integer getQuantity();
+
+    Integer getProductDetailQuantity();
+
+    String getProductDetailId();
 }
