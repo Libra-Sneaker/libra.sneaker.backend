@@ -2,6 +2,8 @@ package com.web.librasneaker.business.admin.customerManagement.web;
 
 import com.web.librasneaker.business.admin.customerManagement.service.CustomerManagementService;
 import com.web.librasneaker.dto.customerManagement.CreateCustomerDTO;
+import com.web.librasneaker.dto.customerManagement.CustomerNameResponse;
+import com.web.librasneaker.dto.customerManagement.FindByNameDTO;
 import com.web.librasneaker.dto.customerManagement.FindCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.ListCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.UpdateCustomerDTO;
@@ -9,6 +11,7 @@ import com.web.librasneaker.dto.employeeManagement.CreateEmployeeDTO;
 import com.web.librasneaker.dto.employeeManagement.FindEmployeeDTO;
 import com.web.librasneaker.dto.employeeManagement.ListEmployeeDTO;
 import com.web.librasneaker.dto.employeeManagement.UpdateEmployeeDTO;
+import com.web.librasneaker.entity.CustomerEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @AllArgsConstructor
@@ -48,6 +53,12 @@ public class CustomerController {
     @GetMapping("/search")
     public ResponseEntity<Page<ListCustomerDTO>> searchCustomer(FindCustomerDTO request) {
         Page<ListCustomerDTO> response = customerManagementService.searchCustomer(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/searchByName")
+    public ResponseEntity<List<CustomerNameResponse>> searchByName(FindByNameDTO name) {
+        List<CustomerNameResponse> response = customerManagementService.searchByName(name);
         return ResponseEntity.ok(response);
     }
 

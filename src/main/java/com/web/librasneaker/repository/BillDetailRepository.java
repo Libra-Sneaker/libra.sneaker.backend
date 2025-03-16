@@ -42,4 +42,6 @@ public interface BillDetailRepository extends JpaRepository<BillDetailEntity,Str
 
     @Query("SELECT bd FROM BillDetailEntity bd WHERE bd.billId = :billId AND bd.productDetailId = :productDetailId AND bd.deleteFlag = 0")
     Optional<BillDetailEntity> findByBillIdAndProductDetailId(@Param("billId") String billId, @Param("productDetailId") String productDetailId);
+
+    List<BillDetailEntity> findByBillId(String billId);
 }

@@ -23,16 +23,19 @@ public class TransactionEntity extends PrimaryEntity {
     @Column(name = "bill_id", length = EntityProperties.LENGTH_ID)
     private String billId;
 
-    @Column(name = "payment_id", length = EntityProperties.LENGTH_ID)
-    private String paymentMethodId;
-
     @Column
     private Double money;
+
+    @Column
+    private String code;
 
     @Column
     private Integer status;
 
     @Column
-    private Integer type;
+    private Integer typeTransaction; //  tièn mặt hay chuyển khoản (0: tiền mặt, 1: chuyển khoản)
+
+    @Column
+    private Integer typeMethod; // tại quầy hay onl ( 0: tại quầy, 1: onl)
 
 }

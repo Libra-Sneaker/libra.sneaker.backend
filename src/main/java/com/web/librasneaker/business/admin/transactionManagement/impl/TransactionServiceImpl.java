@@ -3,8 +3,10 @@ package com.web.librasneaker.business.admin.transactionManagement.impl;
 import com.web.librasneaker.business.admin.transactionManagement.service.TransactionService;
 import com.web.librasneaker.dto.billHistoryManagement.BillHistoryResponse;
 import com.web.librasneaker.dto.billHistoryManagement.ListBillHistoryDTO;
+import com.web.librasneaker.dto.transactionManagement.CreateTransactionDTO;
 import com.web.librasneaker.dto.transactionManagement.ListTransactionDTO;
 import com.web.librasneaker.dto.transactionManagement.TransactionResponse;
+import com.web.librasneaker.entity.TransactionEntity;
 import com.web.librasneaker.repository.TransactionRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,13 +25,75 @@ public class TransactionServiceImpl  implements TransactionService {
 
     @Override
     public List<ListTransactionDTO> getTransaction(String id) {
-        // Fetch the list of responses from the repository
         List<TransactionResponse> listResponse = transactionRepository.getTransaction(id);
-
-        List<ListTransactionDTO> result = listResponse.stream()
+        return listResponse.stream()
                 .map(response -> modelMapper.map(response, ListTransactionDTO.class))
                 .toList();
-
-        return result;
     }
+
+    @Override
+    public String createTransaction(CreateTransactionDTO request) {
+        // Kiểm tra đầu vào
+        if (request.getPayments() == null || request.getPayments().isEmpty()) {
+            throw new IllegalArgumentException("Danh sách thanh toán không được để trống.");
+        }
+
+        double totalAmount = request.getPayments().stream()
+                .mapToDouble(CreateTransactionDTO.PaymentDetail::getMoney)
+                .sum();
+
+        if (totalAmount <= 0) {
+            throw new IllegalArgumentException("Số tiền thanh toán phải lớn hơn 0.");
+        }
+
+        // Lặp qua từng phương thức thanh toán và tạo giao dịch
+        for (CreateTransactionDTO.PaymentDetail payment : request.getPayments()) {
+            if (payment.getMoney() == null || payment.getMoney() <= 0) {
+                throw new IllegalArgumentException("Số tiền của từng phương thức phải lớn hơn 0.");
+            }
+
+            if (payment.getType() == null || (payment.getType() != 0 && payment.getType() != 1)) {
+                throw new IllegalArgumentException("Loại phương thức thanh toán không hợp lệ (0: Tiền mặt, 1: Chuyển khoản).");
+            }
+
+            // Tạo TransactionEntity
+            TransactionEntity transaction = new TransactionEntity();
+            transaction.setBillId(request.getBillId());
+            transaction.setMoney(payment.getMoney());
+            transaction.setTypeTransaction(payment.getType() == 0 ? 0 : 1);
+            // Gán status dựa trên type: 0 (Tiền mặt), 1 (Chuyển khoản)
+            transaction.setStatus(1);
+
+            // Lưu vào database
+            transactionRepository.save(transaction);
+
+            // Log thông tin
+            if (payment.getType() == 0) {
+                System.out.println("Giao dịch tiền mặt: " + payment.getMoney() + ", Status: 0");
+            } else if (payment.getType() == 1) {
+                System.out.println("Giao dịch chuyển khoản: " + payment.getMoney() + ", Status: 1");
+            }
+        }
+
+        return "Tạo giao dịch thành công cho hóa đơn " + request.getBillId();
+    }
+
+    @Override
+    public String updateDeleteFlag(String id) {
+        TransactionEntity transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction không tồn tại với id: " + id));
+        transaction.setStatus(transaction.getStatus() == 0 ? 1 : 0);
+        transactionRepository.save(transaction);
+        return "Cập nhật trạng thái thành công cho giao dịch có id: " + id;
+    }
+
+    @Override
+    public String deleteTransaction(String id) {
+        TransactionEntity transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction không tồn tại với id: " + id));
+        transactionRepository.delete(transaction);
+        return "Xóa giao dịch thành công";
+    }
+
+
 }

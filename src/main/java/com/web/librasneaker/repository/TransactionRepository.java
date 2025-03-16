@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity,String> {
@@ -16,18 +17,14 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity,S
     @Query(value = """
         SELECT
             t.id AS id,
-            t.payment_id AS paymentId,
             t.bill_id AS billId,
             t.money AS money,
             t.status ,
-            p.type_method as typeMethod,
             t.created_date AS createdDate,
             e.name as employeeName,
-            t.type AS typeTransaction
+            t.type_transaction AS typeTransaction
         FROM
             transactions t
-        LEFT JOIN
-            payment_method p ON p.id = t.payment_id
         LEFT JOIN
             bills b on b.id = t.bill_id
         LEFT JOIN
@@ -37,5 +34,8 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity,S
 
         """, nativeQuery = true)
     List<TransactionResponse> getTransaction(@Param("billId") String billId);
+
+    Optional<TransactionEntity> findById(String id);
+
 
 }

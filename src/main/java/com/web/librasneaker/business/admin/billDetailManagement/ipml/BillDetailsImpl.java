@@ -93,6 +93,13 @@ public class BillDetailsImpl implements BillDetailService {
             productDetail.setQuantity(productDetail.getQuantity() - request.getQuantity());
             productDetailRepository.save(productDetail);
 
+            // Cập nhật total_amount trong bill
+//            Double totalAmount = billDetailRepository.findByBillId(request.getBillId()).stream()
+//                    .mapToDouble(detail -> detail.getPrice() * detail.getQuantity())
+//                    .sum();
+//            bill.setTotalAmount(totalAmount);
+//            billRepository.save(bill);
+
             return "Tạo hóa đơn chi tiết thành công!";
         }
     }

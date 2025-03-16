@@ -1,12 +1,14 @@
 package com.web.librasneaker.business.admin.billManagement.web;
 
 import com.web.librasneaker.business.admin.billManagement.service.BillManagementService;
+import com.web.librasneaker.dto.billManagement.BillUpdateRequestDTO;
 import com.web.librasneaker.dto.billManagement.FindBillDTO;
 import com.web.librasneaker.dto.billManagement.ListBillDTO;
 import com.web.librasneaker.dto.brandManagement.UpdateDeleteFlagRequestDTO;
 import com.web.librasneaker.dto.colorManagement.CreateColorDTO;
 import com.web.librasneaker.dto.employeeManagement.FindEmployeeDTO;
 import com.web.librasneaker.dto.employeeManagement.ListEmployeeDTO;
+import com.web.librasneaker.entity.BillDetailEntity;
 import com.web.librasneaker.entity.BillEntity;
 import com.web.librasneaker.entity.ColorEntity;
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RequiredArgsConstructor
@@ -71,6 +74,35 @@ public class BillManagementController {
     @PutMapping("/updateDeleteFlag/{id}")
     public ResponseEntity<String> updateDeleteFlag(@PathVariable String id) {
         String result = billManagementService.updateDeleteFlag(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateBill(@RequestBody @Valid BillUpdateRequestDTO request) {
+        BillEntity bill = new BillEntity();
+        bill.setId(request.getId());
+        bill.setTotalAmount(request.getTotalAmount());
+        bill.setCustomerId(request.getCustomerId());
+        bill.setEmployeeId(request.getEmployeeId());
+        bill.setStatus(request.getStatus());
+        bill.setAddress(request.getAddress());
+        bill.setPhoneNumber(request.getPhoneNumber());
+        bill.setRecipient(request.getRecipient());
+        bill.setDatePayment(request.getDatePayment());
+
+        List<BillDetailEntity> billDetails = request.getBillDetails().stream()
+                .map(dto -> {
+                    BillDetailEntity detail = new BillDetailEntity();
+                    detail.setId(dto.getId());
+                    detail.setProductDetailId(dto.getProductDetailId());
+                    detail.setQuantity(dto.getQuantity());
+                    detail.setPrice(dto.getPrice());
+                    detail.setDeleteFlag(dto.getDeleteFlag());
+                    return detail;
+                })
+                .collect(Collectors.toList());
+
+        String result = billManagementService.updateBill(bill, billDetails);
         return ResponseEntity.ok(result);
     }
 }

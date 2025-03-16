@@ -21,6 +21,8 @@ public class ListBillDTO {
 
     private Double totalAmount;
 
+    private Integer totalQuantity;
+
     private Date datePayment;
 
     private String address;

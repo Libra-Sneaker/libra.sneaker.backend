@@ -14,6 +14,8 @@ public interface BillResponse {
 
     Double getTotalAmount();
 
+    Integer getTotalQuantity();
+
     String getDatePayment();
 
     String getAddress();

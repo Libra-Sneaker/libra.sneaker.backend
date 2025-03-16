@@ -8,7 +8,6 @@ import lombok.Setter;
 public class ListTransactionDTO {
     private String id;
     private String billId;
-    private String paymentId;
     private Integer status;
     private Double money;
     private String createdDate;

@@ -3,14 +3,13 @@ package com.web.librasneaker.business.admin.customerManagement.impl;
 import com.web.librasneaker.business.admin.customerManagement.service.CustomerManagementService;
 import com.web.librasneaker.config.mailconfig.EmailSender;
 import com.web.librasneaker.dto.customerManagement.CreateCustomerDTO;
+import com.web.librasneaker.dto.customerManagement.CustomerNameResponse;
 import com.web.librasneaker.dto.customerManagement.CustomerRespone;
+import com.web.librasneaker.dto.customerManagement.FindByNameDTO;
 import com.web.librasneaker.dto.customerManagement.FindCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.ListCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.UpdateCustomerDTO;
-import com.web.librasneaker.dto.employeeManagement.EmployeeResponse;
-import com.web.librasneaker.dto.employeeManagement.ListEmployeeDTO;
 import com.web.librasneaker.entity.CustomerEntity;
-import com.web.librasneaker.entity.EmployeeEntity;
 import com.web.librasneaker.repository.CustomerRepository;
 import com.web.librasneaker.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,7 +38,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     private String generateNewCode(String maxCode) {
         // Nếu maxCode là null, bắt đầu từ "EMP001"
         if (maxCode == null) {
-            return "EMP001";
+            return "KH001";
         }
 
         // Lấy phần số từ maxCode và tăng nó lên 1
@@ -46,7 +46,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
         int newNumber = currentNumber + 1;
 
         // Định dạng mã mới với "EMP" + số tự tăng, có đủ 3 chữ số
-        return String.format("EMP%03d", newNumber);
+        return String.format("KH%03d", newNumber);
     }
 
     // Phương thức tạo mật khẩu ngẫu nhiên
@@ -163,6 +163,11 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
         customerRepository.save(customer);
 
         return "Cập nhật trạng thái khách hàng thành công!";
+    }
+
+    @Override
+    public List<CustomerNameResponse> searchByName(FindByNameDTO name) {
+        return customerRepository.searchByName(name);
     }
 
 

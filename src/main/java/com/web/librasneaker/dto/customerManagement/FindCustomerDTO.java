@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FindCustomerDTO extends PageableRequest {
-
     private String searchTerm;
 
     private Integer sex;

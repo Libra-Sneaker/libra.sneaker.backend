@@ -5,6 +5,7 @@ import com.web.librasneaker.dto.billManagement.ListBillDTO;
 import com.web.librasneaker.dto.colorManagement.UpdateDeleteFlagColorDTO;
 import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.ProductListDTO;
+import com.web.librasneaker.entity.BillDetailEntity;
 import com.web.librasneaker.entity.BillEntity;
 import org.springframework.data.domain.Page;
 
@@ -25,5 +26,7 @@ public interface BillManagementService {
 
 
     String updateDeleteFlag (String id);
+
+    String updateBill(BillEntity bill, List<BillDetailEntity> billDetails);
 
 }

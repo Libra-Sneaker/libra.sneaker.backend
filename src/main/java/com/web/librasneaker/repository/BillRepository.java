@@ -15,49 +15,55 @@ import java.util.Optional;
 
 @Repository
 public interface BillRepository extends JpaRepository<BillEntity,String> {
-        @Query(value = """
-        SELECT
-           ROW_NUMBER() OVER (ORDER BY b.created_date DESC) AS rowNum,
-           b.id,
-           b.code AS billCode,
-           b.total_amount AS totalAmount,
-           b.date_payment AS datePayment,
-           b.type AS type,
-           b.address AS address,
-           c.id AS customerId,
-           c.name AS customerName,
-           e.id AS employeeId,
-           e.name AS employeeName, 
-           b.created_date AS createdDate,
-           b.status AS status
-       FROM
-           bills b
-       LEFT JOIN
-           customers c ON c.id = b.customer_id
-       LEFT JOIN
-           employees e ON e.id = b.employee_id
-        WHERE
-          (:#{#req.searchTerm} IS NULL OR :#{#req.searchTerm} LIKE '' OR
-                  b.code LIKE %:#{#req.searchTerm}% OR
-                  c.name LIKE %:#{#req.searchTerm}%)
-                 AND (:#{#req.datePaymentStart} IS NULL OR b.date_payment >= :#{#req.datePaymentStart})
-                 AND (:#{#req.datePaymentEnd} IS NULL OR b.date_payment <= :#{#req.datePaymentEnd})
-                 AND (:#{#req.status} IS NULL OR b.status = :#{#req.status})
-        ORDER BY b.created_date DESC
-    """, countQuery = """
-        SELECT COUNT(b.id)
-        FROM bills b
-        LEFT JOIN customers c ON c.id = b.customer_id
-        LEFT JOIN employees e ON e.id = b.employee_id
-        WHERE
-          (:#{#req.searchTerm} IS NULL OR :#{#req.searchTerm} LIKE '' OR
-           b.code LIKE %:#{#req.searchTerm}% OR
-           c.name LIKE %:#{#req.searchTerm}%)
-          AND (:#{#req.datePaymentStart} IS NULL OR b.date_payment >= :#{#req.datePaymentStart})
-          AND (:#{#req.datePaymentEnd} IS NULL OR b.date_payment <= :#{#req.datePaymentEnd})
-          AND (:#{#req.status} IS NULL OR b.status = :#{#req.status})
-    """, nativeQuery = true)
-        Page<BillResponse> getBillResponse(Pageable pageable, @Param("req") FindBillDTO req);
+    @Query(value = """
+    SELECT
+       ROW_NUMBER() OVER (ORDER BY b.created_date DESC) AS rowNum,
+       b.id,
+       b.code AS billCode,
+       b.total_amount AS totalAmount,
+       b.date_payment AS datePayment,
+       b.type AS type,
+       b.address AS address,
+       c.id AS customerId,
+       c.name AS customerName,
+       e.id AS employeeId,
+       e.name AS employeeName, 
+       b.created_date AS createdDate,
+       b.status AS status,
+       COALESCE(SUM(bd.quantity), 0) AS totalQuantity  -- Tổng số sản phẩm từ bill_details
+    FROM
+       bills b
+    LEFT JOIN
+       customers c ON c.id = b.customer_id
+    LEFT JOIN
+       employees e ON e.id = b.employee_id
+    LEFT JOIN
+       bill_details bd ON bd.bill_id = b.id AND bd.delete_flag = 0  -- Liên kết với bill_details
+    WHERE
+       (:#{#req.searchTerm} IS NULL OR :#{#req.searchTerm} LIKE '' OR
+               b.code LIKE %:#{#req.searchTerm}% OR
+               c.name LIKE %:#{#req.searchTerm}%)
+       AND (:#{#req.datePaymentStart} IS NULL OR b.date_payment >= :#{#req.datePaymentStart})
+       AND (:#{#req.datePaymentEnd} IS NULL OR b.date_payment <= :#{#req.datePaymentEnd})
+       AND (:#{#req.status} IS NULL OR b.status = :#{#req.status})
+    GROUP BY
+       b.id, b.code, b.total_amount, b.date_payment, b.type, b.address,
+       c.id, c.name, e.id, e.name, b.created_date, b.status
+    ORDER BY b.created_date DESC
+""", countQuery = """
+    SELECT COUNT(b.id)
+    FROM bills b
+    LEFT JOIN customers c ON c.id = b.customer_id
+    LEFT JOIN employees e ON e.id = b.employee_id
+    WHERE
+       (:#{#req.searchTerm} IS NULL OR :#{#req.searchTerm} LIKE '' OR
+        b.code LIKE %:#{#req.searchTerm}% OR
+        c.name LIKE %:#{#req.searchTerm}%)
+       AND (:#{#req.datePaymentStart} IS NULL OR b.date_payment >= :#{#req.datePaymentStart})
+       AND (:#{#req.datePaymentEnd} IS NULL OR b.date_payment <= :#{#req.datePaymentEnd})
+       AND (:#{#req.status} IS NULL OR b.status = :#{#req.status})
+""", nativeQuery = true)
+    Page<BillResponse> getBillResponse(Pageable pageable, @Param("req") FindBillDTO req);
 
 
 
