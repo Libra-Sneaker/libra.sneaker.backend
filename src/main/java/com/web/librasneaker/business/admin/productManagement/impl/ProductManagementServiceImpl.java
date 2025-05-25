@@ -6,12 +6,15 @@ import com.web.librasneaker.dto.productManagement.CreateProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.ProductListDTO;
 import com.web.librasneaker.dto.productManagement.ProductManagementResponse;
+import com.web.librasneaker.dto.productManagement.ProductStatisticsResponse;
+import com.web.librasneaker.dto.productManagement.ProductStatsDTO;
 import com.web.librasneaker.dto.productManagement.UpdateProductManagementDTO;
 import com.web.librasneaker.entity.BrandEntity;
 import com.web.librasneaker.entity.MaterialEntity;
 import com.web.librasneaker.entity.ProductDetailEntity;
 import com.web.librasneaker.entity.ProductEntity;
 import com.web.librasneaker.entity.TypeEntity;
+import com.web.librasneaker.repository.BillDetailRepository;
 import com.web.librasneaker.repository.BrandRepository;
 import com.web.librasneaker.repository.ColorRepository;
 import com.web.librasneaker.repository.MaterialRepository;
@@ -48,6 +51,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     private final TypeRepository typeRepository;
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
+    private final BillDetailRepository billDetailRepository;
 
 
     @Override
@@ -246,6 +250,28 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
         return "Cập nhật tên và trạng thái thành công!";
     }
+
+    @Override
+    public ProductStatsDTO getProductStatistics() {
+        // Tổng số sản phẩm (dựa trên ProductEntity)
+        long totalProducts = productRepository.countByDeleteFlag(0);
+
+        // Số sản phẩm đã bán (dựa trên BillDetailEntity)
+        Long soldProducts = billDetailRepository.getTotalSoldQuantity();
+        if (soldProducts == null) soldProducts = 0L;
+
+        // Số sản phẩm còn lại (dựa trên ProductDetailEntity)
+        Long remainingProducts = productDetailRepository.getTotalRemainingQuantity();
+        if (remainingProducts == null) remainingProducts = 0L;
+
+        return new ProductStatsDTO(totalProducts, soldProducts, remainingProducts);
+    }
+
+    @Override
+    public List<ProductStatisticsResponse> getTopMostSoldProducts() {
+        return productRepository.getTopMostSoldProducts();
+    }
+
 
 
 }

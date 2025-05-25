@@ -3,7 +3,6 @@ package com.web.librasneaker.business.admin.billHistoryManagement.impl;
 import com.web.librasneaker.business.admin.billHistoryManagement.service.BillHistoryService;
 import com.web.librasneaker.dto.billHistoryManagement.BillHistoryResponse;
 import com.web.librasneaker.dto.billHistoryManagement.ListBillHistoryDTO;
-import com.web.librasneaker.dto.billManagement.ListBillDTO;
 import com.web.librasneaker.repository.BillHistoryRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

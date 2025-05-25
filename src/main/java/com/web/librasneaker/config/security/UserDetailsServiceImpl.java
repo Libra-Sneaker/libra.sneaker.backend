@@ -28,6 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (Objects.isNull(employeeEntity)) {
             throw new UsernameNotFoundException("Employee not found with username: " + userName);
         }
+        System.out.println("Found employee: " + employeeEntity.getEmail() + ", password: " + employeeEntity.getPassword());
         return UserDetailsImpl.buildEmployee(employeeEntity);
     }
 

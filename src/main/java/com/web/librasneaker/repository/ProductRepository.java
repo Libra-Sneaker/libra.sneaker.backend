@@ -2,6 +2,7 @@ package com.web.librasneaker.repository;
 
 import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.ProductManagementResponse;
+import com.web.librasneaker.dto.productManagement.ProductStatisticsResponse;
 import com.web.librasneaker.entity.ProductEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -49,6 +51,30 @@ public interface ProductRepository extends JpaRepository<ProductEntity,String> {
 
     Optional<ProductEntity> getProductEntitiesByName(String name);
 
+    Long countByDeleteFlag(Integer deleteFlag);
 
-
+    @Query(value = """
+    SELECT 
+        p.id AS productId,
+        p.name AS productName,
+        pd.url_image as urlImg,
+        SUM(bd.quantity) AS totalSoldQuantity
+    FROM 
+        products p
+    JOIN 
+        product_details pd ON p.id = pd.product_id
+    JOIN 
+        bill_details bd ON pd.id = bd.product_detail_id
+    JOIN 
+        bills b ON bd.bill_id = b.id
+    WHERE 
+        b.status = 1 
+        AND bd.delete_flag = 0
+    GROUP BY 
+        p.id, p.name, pd.url_image
+    ORDER BY 
+        totalSoldQuantity DESC
+    LIMIT 3
+    """, nativeQuery = true)
+    List<ProductStatisticsResponse> getTopMostSoldProducts();
 }

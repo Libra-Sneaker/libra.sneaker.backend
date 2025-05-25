@@ -5,9 +5,11 @@ import com.web.librasneaker.config.mailconfig.EmailSender;
 import com.web.librasneaker.dto.customerManagement.CreateCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.CustomerNameResponse;
 import com.web.librasneaker.dto.customerManagement.CustomerRespone;
+import com.web.librasneaker.dto.customerManagement.CustomerStatisticsResponse;
 import com.web.librasneaker.dto.customerManagement.FindByNameDTO;
 import com.web.librasneaker.dto.customerManagement.FindCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.ListCustomerDTO;
+import com.web.librasneaker.dto.customerManagement.TopCustomerResponse;
 import com.web.librasneaker.dto.customerManagement.UpdateCustomerDTO;
 import com.web.librasneaker.entity.CustomerEntity;
 import com.web.librasneaker.repository.CustomerRepository;
@@ -168,6 +170,21 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     @Override
     public List<CustomerNameResponse> searchByName(FindByNameDTO name) {
         return customerRepository.searchByName(name);
+    }
+
+    @Override
+    public CustomerStatisticsResponse getCustomerStatistics() {
+        return new CustomerStatisticsResponse() {
+            @Override
+            public Long getTotalCustomersThisMonth() {
+                return customerRepository.getTotalCustomersThisMonth();
+            }
+
+            @Override
+            public List<TopCustomerResponse> getTopCustomers() {
+                return customerRepository.getTop3Customers();
+            }
+        };
     }
 
 

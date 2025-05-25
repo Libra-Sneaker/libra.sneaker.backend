@@ -44,4 +44,12 @@ public interface BillDetailRepository extends JpaRepository<BillDetailEntity,Str
     Optional<BillDetailEntity> findByBillIdAndProductDetailId(@Param("billId") String billId, @Param("productDetailId") String productDetailId);
 
     List<BillDetailEntity> findByBillId(String billId);
+
+    @Query(value = """
+        SELECT SUM(bd.quantity)
+        FROM bill_details bd
+        JOIN bills b ON bd.bill_id = b.id
+        WHERE b.status = 1  AND bd.delete_flag = 0
+        """, nativeQuery = true)
+    Long getTotalSoldQuantity();
 }

@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -28,10 +29,10 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
     private final EmailSender emailSender;
+    private final PasswordEncoder passwordEncoder; // Inject PasswordEncoder
 
     @Override
     public String createEmployee(CreateEmployeeDTO request) {
-
         // Kiểm tra email đã tồn tại
         if (employeeRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email này đã tồn tại!");
@@ -53,7 +54,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
         employee.setPhone(request.getPhoneNumber());
         employee.setEmail(request.getEmail());
         employee.setSex(request.getSex());
-        employee.setPassword(generatedPassword);
+        employee.setPassword(passwordEncoder.encode(generatedPassword)); // Mã hóa mật khẩu
         employee.setAvatar(request.getAvatar());
         employee.setRole(request.getRole());
         employee.setDeleteFlag(0);
@@ -61,6 +62,7 @@ public class EmployeeManagementServiceImpl implements EmployeeManagementService 
         // Lưu employee vào database
         employeeRepository.save(employee);
 
+        // Gửi email chứa mật khẩu gốc (plain text)
         Runnable emailTask = () -> {
             String htmlBody = "<p>Mật khẩu của bạn là:</p><br/><div style=\"text-align: center; font-weight: bold; font-size: 25px;\"><strong>" + generatedPassword + "</strong></div>";
             emailSender.sendEmail(new String[]{request.getEmail()}, "[LIBRA-SNEAKER] Thông báo mật khẩu", "Thông báo mật khẩu sau khi đăng ký tài khoản", htmlBody);

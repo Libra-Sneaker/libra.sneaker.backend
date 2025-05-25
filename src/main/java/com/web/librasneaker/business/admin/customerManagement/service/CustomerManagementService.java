@@ -2,6 +2,7 @@ package com.web.librasneaker.business.admin.customerManagement.service;
 
 import com.web.librasneaker.dto.customerManagement.CreateCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.CustomerNameResponse;
+import com.web.librasneaker.dto.customerManagement.CustomerStatisticsResponse;
 import com.web.librasneaker.dto.customerManagement.FindByNameDTO;
 import com.web.librasneaker.dto.customerManagement.FindCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.ListCustomerDTO;
@@ -23,4 +24,6 @@ public interface CustomerManagementService {
     String updateStatusCustomer (String id, Integer deleteFlag);
 
     List<CustomerNameResponse> searchByName (FindByNameDTO name);
+
+    CustomerStatisticsResponse getCustomerStatistics();
 }

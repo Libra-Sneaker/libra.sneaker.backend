@@ -35,4 +35,10 @@ public class BillDetailEntity extends PrimaryEntity {
     @Column
     private Integer deleteFlag;
 
+    @Column(name = "discount_amount")
+    private Double discountAmount; // Số tiền giảm giá cho sản phẩm này
+
+    @Column(name = "final_price")
+    private Double finalPrice; // Giá sau khi giảm
+
 }

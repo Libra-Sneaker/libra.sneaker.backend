@@ -19,7 +19,7 @@ import java.util.Optional;
 public interface ProductDetailRepository extends JpaRepository<ProductDetailEntity,String> {
     @Query(value = """
     SELECT
-            ROW_NUMBER() OVER (ORDER BY pd.created_date DESC) AS rowNum,
+            ROW_NUMBER() OVER (ORDER BY pd.quantity DESC) AS rowNum,
             p.id AS productId,
             pd.id AS productDetailId,
             p.name AS productName,
@@ -61,7 +61,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
         AND ((:#{#req.minPrice} IS NULL OR pd.price >= :#{#req.minPrice})
             AND (:#{#req.maxPrice} IS NULL OR pd.price <= :#{#req.maxPrice}))
         
-    ORDER BY pd.created_date DESC
+    ORDER BY pd.quantity DESC
     """, countQuery = """
     SELECT COUNT(p.id) 
     FROM
@@ -103,6 +103,9 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetailEnti
     """, nativeQuery = true)
     List<String> findLatestProductCode();
 
-
+    @Query(value = """
+        SELECT SUM(pd.quantity) FROM product_details pd WHERE pd.status = 1
+    """, nativeQuery = true)
+    Long getTotalRemainingQuantity();
 
 }

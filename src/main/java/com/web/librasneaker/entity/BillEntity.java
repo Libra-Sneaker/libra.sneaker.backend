@@ -50,6 +50,15 @@ public class BillEntity extends PrimaryEntity {
     @Column
     private Integer deleteFlag;
 
+    @Column(name = "discount_amount")
+    private Double discountAmount; // Số tiền giảm giá từ khuyến mãi
+
+    @Column(name = "final_amount")
+    private Double finalAmount; // Tổng tiền sau khi giảm giá
+
+    @Column(name = "promotion_id")
+    private Long promotionId; // ID của chương trình khuyến mãi áp dụng
+
     @Column(name = "employee_id",length = EntityProperties.LENGTH_ID)
     private String employeeId;
 

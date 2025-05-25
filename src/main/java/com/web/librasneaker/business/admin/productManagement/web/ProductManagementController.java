@@ -7,6 +7,8 @@ import com.web.librasneaker.business.admin.typeManagement.service.TypeManagement
 import com.web.librasneaker.dto.productManagement.CreateProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.FindProductManagementDTO;
 import com.web.librasneaker.dto.productManagement.ProductListDTO;
+import com.web.librasneaker.dto.productManagement.ProductStatisticsResponse;
+import com.web.librasneaker.dto.productManagement.ProductStatsDTO;
 import com.web.librasneaker.dto.productManagement.UpdateProductManagementDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @AllArgsConstructor
@@ -65,4 +69,16 @@ public class ProductManagementController {
     }
 
 
+    @GetMapping("/statistics")
+    public ResponseEntity<ProductStatsDTO> getProductStatistics() {
+        ProductStatsDTO stats = productManagementService.getProductStatistics();
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping("/top-sold-products")
+    public ResponseEntity<List<ProductStatisticsResponse>> getTopMostSoldProducts() {
+        return ResponseEntity.ok(productManagementService.getTopMostSoldProducts());
+    }
 }
+
+

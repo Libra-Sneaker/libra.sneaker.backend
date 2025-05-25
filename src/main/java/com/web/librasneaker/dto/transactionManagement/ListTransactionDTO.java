@@ -10,7 +10,7 @@ public class ListTransactionDTO {
     private String billId;
     private Integer status;
     private Double money;
-    private String createdDate;
+    private Long createdDate;
     private Integer typeMethod;
     private String employeeName;
     private Integer typeTransaction;

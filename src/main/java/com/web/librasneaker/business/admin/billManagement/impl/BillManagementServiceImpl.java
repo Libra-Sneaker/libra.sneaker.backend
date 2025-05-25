@@ -1,6 +1,7 @@
 package com.web.librasneaker.business.admin.billManagement.impl;
 
 import com.web.librasneaker.business.admin.billManagement.service.BillManagementService;
+import com.web.librasneaker.config.security.UserDetailsImpl;
 import com.web.librasneaker.dto.billManagement.BillResponse;
 import com.web.librasneaker.dto.billManagement.FindBillDTO;
 import com.web.librasneaker.dto.billManagement.ListBillDTO;
@@ -22,6 +23,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -148,6 +150,14 @@ public class BillManagementServiceImpl implements BillManagementService {
         updatedBill.setPhoneNumber(bill.getPhoneNumber());
         updatedBill.setRecipient(bill.getRecipient());
         updatedBill.setDatePayment(bill.getDatePayment());
+        UserDetailsImpl currentUser = (UserDetailsImpl) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        String employeeId = currentUser.getId(); // hoặc getEmployeeId()
+
+        updatedBill.setEmployeeId(employeeId);
 
         billRepository.save(updatedBill);
 
@@ -191,15 +201,6 @@ public class BillManagementServiceImpl implements BillManagementService {
         } else {
             // Nếu customerId là null, không cần cập nhật bảng customers
             // Có thể ghi log hoặc xử lý thêm nếu cần
-        }
-
-        if (bill.getEmployeeId() != null) {
-            Optional<EmployeeEntity> employeeOpt = employeeRepository.findById(bill.getEmployeeId());
-            if (!employeeOpt.isPresent()) {
-                throw new RuntimeException("Nhân viên không tồn tại");
-            }
-            EmployeeEntity employee = employeeOpt.get();
-            employeeRepository.save(employee);
         }
 
         return "Cập nhật hóa đơn và các bảng liên quan thành công!";

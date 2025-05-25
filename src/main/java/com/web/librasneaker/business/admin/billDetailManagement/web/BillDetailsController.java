@@ -3,9 +3,6 @@ package com.web.librasneaker.business.admin.billDetailManagement.web;
 import com.web.librasneaker.business.admin.billDetailManagement.service.BillDetailService;
 import com.web.librasneaker.dto.billDetailManagement.CreateBillDetailDTO;
 import com.web.librasneaker.dto.billDetailManagement.ListBillDetailDTO;
-import com.web.librasneaker.dto.billHistoryManagement.ListBillHistoryDTO;
-import com.web.librasneaker.dto.productDetailDTO.CreateProductDetailDTO;
-import com.web.librasneaker.repository.BillDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +27,12 @@ public class BillDetailsController {
     @GetMapping("/infoBillDetails/{id}")
     public ResponseEntity<List<ListBillDetailDTO>> getBillDetails(@PathVariable("id") String id) {
         Integer deleteFlag = 0;
-        List<ListBillDetailDTO> billDetails = billDetailService.getBillDetails(id,deleteFlag);
+        List<ListBillDetailDTO> billDetails = billDetailService.getBillDetails(id, deleteFlag);
         return new ResponseEntity<>(billDetails, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create (@RequestBody CreateBillDetailDTO request) {
+    public ResponseEntity<String> create(@RequestBody CreateBillDetailDTO request) {
         return ResponseEntity.ok().body(billDetailService.createBillDetail(request));
     }
 

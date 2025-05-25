@@ -3,6 +3,7 @@ package com.web.librasneaker.business.admin.customerManagement.web;
 import com.web.librasneaker.business.admin.customerManagement.service.CustomerManagementService;
 import com.web.librasneaker.dto.customerManagement.CreateCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.CustomerNameResponse;
+import com.web.librasneaker.dto.customerManagement.CustomerStatisticsResponse;
 import com.web.librasneaker.dto.customerManagement.FindByNameDTO;
 import com.web.librasneaker.dto.customerManagement.FindCustomerDTO;
 import com.web.librasneaker.dto.customerManagement.ListCustomerDTO;
@@ -65,6 +66,11 @@ public class CustomerController {
     @PutMapping("/updateStatus")
     public ResponseEntity<String> updateStatusCustomer (@RequestParam String id, @RequestParam Integer deleteFlag) {
         return ResponseEntity.ok().body(customerManagementService.updateStatusCustomer( id, deleteFlag));
+    }
+
+    @GetMapping("/statistics")
+    public ResponseEntity<CustomerStatisticsResponse> getCustomerStatistics() {
+        return ResponseEntity.ok(customerManagementService.getCustomerStatistics());
     }
 
 }
